@@ -9,7 +9,7 @@ const MARKDOWN_ERROR_MESSAGES = {
 } satisfies Record<MarkdownErrorCode, string>
 
 export const COPY = {
-  appName: 'Todo Print Editor',
+  appName: 'Todo Print',
   appTagline: 'A calm workspace for paper plans.',
   localBadge: 'Local · private',
   savedLocally: 'Saved in this browser',

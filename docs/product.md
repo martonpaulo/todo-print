@@ -1,6 +1,6 @@
-# Todo Print Editor
+# Todo Print
 
-Todo Print Editor is a local-first React editor for designing structured checklists and printing them as exact A4 landscape layouts.
+Todo Print is a local-first React editor for designing structured checklists and printing them as exact A4 landscape layouts.
 
 ## Who it is for
 

@@ -1,9 +1,9 @@
-# Todo Print Editor Working Agreements
+# Todo Print Working Agreements
 
 ## Project identity and policy
 
-- Project name: `todo-print-editor`
-- Public name: `Todo Print Editor`
+- Project name: `todo-print`
+- Public name: `Todo Print`
 - Benefit-first description: Design and print structured todo lists as exact-size A4 layouts from a visual or Markdown editor.
 - Repository: `martonpaulo/todo-print` (public)
 - Public identifiers: private npm package `todo-print-editor`; GitHub Pages site `todoprint.martonpaulo.com` (repository slug `todo-print`).
@@ -37,7 +37,7 @@ Treat these values as stable project decisions. Change an established identifier
 
 ## Product contract
 
-- The application has exactly one route and must opt out of search indexing.
+- The application has exactly one route, and that route is indexable. The `noindex` policy was dropped by the owner on 2026-09-09, when the app moved to `todoprint.martonpaulo.com`; `docs/product.md` records the reason.
 - User documents stay in browser `localStorage`; do not add accounts, analytics, remote storage, or a backend.
 - A printed page is A4 landscape (`297mm × 210mm`) containing three sequential `99mm × 210mm` panels.
 - Under `@media print` a printed panel is clamped to `209mm–210mm` tall. Chromium floors the printable page area to a whole CSS pixel, so the sheet fragments at `793px` (`209.81mm`) while a panel declared at the full `210mm` resolves to `793.70px`: it overflows by a fraction of a pixel and pushes a blank second sheet out of every document. The `209mm` floor is that allowance, deliberately below the measured `209.81mm` limit rather than at it; the `210mm` ceiling is the paper, and screen preview keeps the full `210mm`.
