@@ -297,6 +297,11 @@ const App = () => {
 
   return (
     <div className={`app-shell${canPrint ? '' : ' app-shell--print-blocked'}`}>
+      {/* The editor fills the screen and no visible text acts as its heading, so
+          a screen reader and a crawler would find a document with no title of
+          its own. This names the product; the print panels keep their own h1
+          for the date, which only exists on paper. */}
+      <h1 className="sr-only screen-only">{`${COPY.appName}: ${COPY.appTagline}`}</h1>
       <main className="workspace">
         <section
           className="editor-pane screen-only"
