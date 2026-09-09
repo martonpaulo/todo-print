@@ -4,7 +4,7 @@ import { defineConfig } from 'vitest/config'
 // The printed-page geometry check drives a real browser, so it is kept out of the default `npm test`
 // loop and given its own `npm run test:print` entry point. `npm run check` runs both.
 export default defineConfig({
-  base: '/todo-print-editor/',
+  base: '/',
   plugins: [react()],
   test: {
     environment: 'node',

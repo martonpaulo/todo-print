@@ -2,7 +2,7 @@
 
 Design structured todo lists in a visual or Markdown editor, preview atomic `99mm × 210mm` panels live, and print three panels per A4 landscape page.
 
-**Live app:** [martonpaulo.github.io/todo-print-editor](https://martonpaulo.github.io/todo-print-editor/)
+**Live app:** [todo-print.martonpaulo.com](https://todo-print.martonpaulo.com/)
 
 ## Highlights
 
@@ -166,7 +166,7 @@ Pull requests run lint, tests, and a production build. A validated push to `main
 - A single list cannot exceed one panel; shorten it before printing.
 - Editing stays inside one frame up to 25 lists of 10 tasks; larger documents keep working but feel progressively slower. See `docs/performance.md`.
 - Exact physical output depends on 100% print scale and printer-driver behavior.
-- The public utility opts out of search indexing, but `noindex` is not access control.
+- The public utility is indexable; the site is a single client-side route with no server-side access control.
 
 ## License
 

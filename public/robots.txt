@@ -1,2 +1,4 @@
 User-agent: *
-Disallow: /
+Allow: /
+
+Sitemap: https://todo-print.martonpaulo.com/sitemap.xml

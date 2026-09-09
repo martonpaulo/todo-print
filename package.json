@@ -3,10 +3,10 @@
   "private": true,
   "version": "0.0.0",
   "description": "Design and print structured todo lists as exact-size A4 layouts from a visual or Markdown editor.",
-  "homepage": "https://martonpaulo.github.io/todo-print-editor/",
+  "homepage": "https://todo-print.martonpaulo.com/",
   "repository": {
     "type": "git",
-    "url": "https://github.com/martonpaulo/todo-print-editor.git"
+    "url": "https://github.com/martonpaulo/todo-print.git"
   },
   "type": "module",
   "scripts": {
