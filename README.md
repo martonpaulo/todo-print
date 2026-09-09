@@ -1,4 +1,4 @@
-# Todo Print Editor
+# Todo Print
 
 Design structured todo lists in a visual or Markdown editor, preview atomic `99mm × 210mm` panels live, and print three panels per A4 landscape page.
 
