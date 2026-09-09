@@ -26,10 +26,10 @@ Create reusable todo lists quickly, see exactly how they will flow onto paper, a
 - **Accounts, cloud sync, or collaboration:** document content must remain local and private.
 - **Backend services or analytics:** they add data sharing and operations without helping the print workflow.
 - **Multiple routes or a marketing site:** the editor is the whole product.
-- **Blocking search indexing:** since 2026-09-09 the site at `https://todo-print.martonpaulo.com/` is indexable (canonical URL, Open Graph and Twitter metadata, `robots.txt` allowing all agents, and a sitemap). The earlier `noindex` policy was dropped by the owner when the app moved to its own subdomain.
+- **Blocking search indexing:** since 2026-09-09 the site at `https://todoprint.martonpaulo.com/` is indexable (canonical URL, Open Graph and Twitter metadata, `robots.txt` allowing all agents, and a sitemap). The earlier `noindex` policy was dropped by the owner when the app moved to its own subdomain.
 - **General-purpose Markdown or rich text:** only dates, list headings, checklist items, and explicit panel breaks are supported so visual round-tripping stays predictable.
 - **Automatic font scaling or list splitting:** both would hide layout problems and compromise the paper contract.
-- **Public versions, tags, and releases:** validated `main` builds deploy continuously to GitHub Pages at `https://todo-print.martonpaulo.com/`.
+- **Public versions, tags, and releases:** validated `main` builds deploy continuously to GitHub Pages at `https://todoprint.martonpaulo.com/`.
 
 ## Success
 

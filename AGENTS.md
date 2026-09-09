@@ -6,8 +6,8 @@
 - Public name: `Todo Print Editor`
 - Benefit-first description: Design and print structured todo lists as exact-size A4 layouts from a visual or Markdown editor.
 - Repository: `martonpaulo/todo-print` (public)
-- Public identifiers: private npm package `todo-print-editor`; GitHub Pages site `todo-print.martonpaulo.com` (repository slug `todo-print`).
-- Landing page: the application at `https://todo-print.martonpaulo.com/` is the only public page; there is no separate marketing site.
+- Public identifiers: private npm package `todo-print-editor`; GitHub Pages site `todoprint.martonpaulo.com` (repository slug `todo-print`).
+- Landing page: the application at `https://todoprint.martonpaulo.com/` is the only public page; there is no separate marketing site.
 - License: `MIT`
 - Copyright: 2026 martonpaulo
 - Development language: English.
