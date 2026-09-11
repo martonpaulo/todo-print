@@ -27,7 +27,7 @@ the **geometric alphabet William Moon published in 1845**.
 
 <br />
 
-## 🌱 Quick Start
+## Quick Start
 
 ```bash
 npm install
@@ -46,7 +46,7 @@ Requirements:
 
 <br />
 
-## 🛠 Commands
+## Commands
 
 | Command | What it does |
 | :--- | :--- |
@@ -61,14 +61,6 @@ Requirements:
 | `npm run check` | Alias of `npm run validate`, kept for muscle memory |
 | `npm run profile` | Builds and drives a production build to report the editing-latency profile |
 | `npm run social-card` | Renders `design/social-card/` into `public/social-card.jpg` |
-
-<br />
-
-## 🔐 Secrets and variables
-
-**There are none.** The app reads no environment variable, has no `.env` file and holds no
-credential — it has no backend to hold one for. The deploy workflow uses only the repository's
-native `GITHUB_TOKEN`, which GitHub Actions provides automatically.
 
 ---
 
