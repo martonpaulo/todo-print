@@ -20,6 +20,7 @@ It is a **browser-only tool**: no account, no backend, no analytics, and nothing
 document lives in this browser's `localStorage`, exports and imports as plain Markdown, and becomes
 a PDF through the browser's own print path. An optional typography setting redraws list content in
 the **geometric alphabet William Moon published in 1845**.
+
 <br />
 
 ---
@@ -65,6 +66,7 @@ Requirements:
 **There are none.** The app reads no environment variable, has no `.env` file and holds no
 credential — it has no backend to hold one for. The deploy workflow uses only the repository's
 native `GITHUB_TOKEN`, which GitHub Actions provides automatically.
+
 <br />
 
 ---
@@ -221,6 +223,7 @@ The editor states whether the document on screen is the one the browser holds. W
 ## Deployment
 
 Pull requests run lint, tests, and a production build. A validated push to `main` uploads `dist/` and deploys it through GitHub Pages using the repository's native `GITHUB_TOKEN`.
+
 <br />
 
 ---
