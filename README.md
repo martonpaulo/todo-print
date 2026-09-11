@@ -6,7 +6,9 @@
 
 Design structured todo lists in a visual or Markdown editor and print them as exact-size A4 pages, three fixed panels per landscape sheet.
 
-[![Validate](https://github.com/martonpaulo/todo-print/actions/workflows/validate.yml/badge.svg)](https://github.com/martonpaulo/todo-print/actions/workflows/validate.yml) [![Deploy](https://github.com/martonpaulo/todo-print/actions/workflows/deploy.yml/badge.svg)](https://github.com/martonpaulo/todo-print/actions/workflows/deploy.yml) [![React 19](https://img.shields.io/badge/React-19-149eca)](https://react.dev/) [![Vite 8](https://img.shields.io/badge/Vite-8-646cff)](https://vite.dev/) [![TypeScript 6](https://img.shields.io/badge/TypeScript-6-3178c6)](https://www.typescriptlang.org/)
+[![Validate](https://github.com/martonpaulo/todo-print/actions/workflows/validate.yml/badge.svg)](https://github.com/martonpaulo/todo-print/actions/workflows/validate.yml) [![Deploy](https://github.com/martonpaulo/todo-print/actions/workflows/deploy.yml/badge.svg)](https://github.com/martonpaulo/todo-print/actions/workflows/deploy.yml)
+
+[![React 19](https://img.shields.io/badge/React-19-149eca)](https://react.dev/) [![Vite 8](https://img.shields.io/badge/Vite-8-646cff)](https://vite.dev/) [![TypeScript 6](https://img.shields.io/badge/TypeScript-6-3178c6)](https://www.typescriptlang.org/)
 
 </div>
 
