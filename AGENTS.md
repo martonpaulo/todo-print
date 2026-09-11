@@ -12,7 +12,7 @@
 - Copyright: 2026 martonpaulo
 - Development language: English.
 - Product copy: English (`en-US`) only, with `en-US` as the fallback. Keep visible strings centralized; do not add a localization framework until another locale is requested.
-- Branch policy: every change reaches `main` through a pull request; `main` is protected by a ruleset requiring one approving review and the recorded status checks. Orchestrated executors use issue branches and pull requests under `## Agent execution`; the owner's own pull requests are approved through `skd approve`, because GitHub refuses an approval from the account that opened them.
+- Branch policy: The owner and the owner's agents commit validated work directly to `main` in focused single-concern commits (owner decision, 2026-09-11). Branches and pull requests stay available for work that benefits from review, and are required for outside contributors. Orchestrated executors keep issue branches and pull requests under `## Agent execution`.
 - Commit policy: commit only when the owner explicitly requests it. Use Conventional Commits in English.
 - Push policy: push only when the owner explicitly requests it and local validation has passed.
 - Product versioning: no user-visible versions, automatic increments, tags, releases, or changelog. The private package version remains the internal `0.0.0` unless an explicit migration changes this policy.
@@ -28,7 +28,7 @@
   `main`; the complete issue set survives in the pull request title and its closing block.
 - Commit subject: a commit made for an issue ends with `(#<issue number>)`.
 - Delete branches after merge: enabled.
-- Default branch review policy: `main` requires one approving review, squash merges only, and the `validate` and `pr-conventions` status checks; `strict` stays off so a parallel lane does not re-run every open pull request after each merge. Enforced by ruleset `22041475` since 2026-09-01, approved by the `agent-approver` GitHub App (id `4779359`), which is installed on this repository.
+- Default branch review policy: none required. Ruleset `22041475` no longer exists, and since 2026-09-11 validated work goes straight to `main`. A pull request, when used, squash-merges after the `validate` and `pr-conventions` checks; the `agent-approver` GitHub App (id `4779359`) stays installed for orchestrated lanes.
 - Release, signing, and secret-storage policy: validated pushes to `main` deploy the static build to GitHub Pages through GitHub Actions when the push changes a file the build reads; `validate` runs on every push and pull request regardless, and the deploy job is skipped for a change outside the build's inputs. Use only the repository-scoped `GITHUB_TOKEN`; there are no release artifacts, signing identities, or project secrets.
 - Skills baseline revision: `45d40d7a35ad074249006f3c058b63299e65a074`
 - Skills baseline applied: `2026-09-01`
