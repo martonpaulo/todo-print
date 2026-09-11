@@ -25,6 +25,8 @@ the **geometric alphabet William Moon published in 1845**.
 
 ---
 
+<br />
+
 ## 🌱 Quick Start
 
 ```bash
