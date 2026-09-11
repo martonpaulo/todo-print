@@ -80,6 +80,8 @@ native `GITHUB_TOKEN`, which GitHub Actions provides automatically.
 - Browser-only persistence with no account, backend, analytics, or content upload
 - Monochrome design tokens in `src/styles/tokens.css`
 
+<br />
+
 ## Usage
 
 ### Visual editor
@@ -176,9 +178,13 @@ opens in the Markdown view with the numbered errors that reject it.
 
 The file is an export, not a second place the document lives. Browser storage stays canonical.
 
+<br />
+
 ## Design tokens
 
 All reusable visual and physical layout values live in `src/styles/tokens.css`. The print contract is grouped under **Physical print tokens**. Change those values carefully because they affect pagination measurements and paper output together.
+
+<br />
 
 ## Validation
 
@@ -198,15 +204,21 @@ Tests cover Markdown conversion, persisted-data validation, and atomic paginatio
 
 [CONTRIBUTING.md](CONTRIBUTING.md) has how to report a bug and the branch, commit and pull request conventions.
 
+<br />
+
 ## Privacy and security
 
 Todo content is stored only in this browser under `localStorage`. The app has no backend, account system, analytics, or content API. Clearing site data removes the saved document.
 
 The editor states whether the document on screen is the one the browser holds. When a write is refused, the draft stays editable and is marked as not saved, so it can be copied out of the Markdown view before the tab closes. When stored content cannot be read, the editor shows a starter draft, saves nothing, and keeps the unreadable value until you choose to replace it.
 
+<br />
+
 ## Deployment
 
 Pull requests run lint, tests, and a production build. A validated push to `main` uploads `dist/` and deploys it through GitHub Pages using the repository's native `GITHUB_TOKEN`.
+
+<br />
 
 ## Limitations
 
@@ -217,6 +229,8 @@ Pull requests run lint, tests, and a production build. A validated push to `main
 - Editing stays inside one frame up to 25 lists of 10 tasks; larger documents keep working but feel progressively slower. See `docs/performance.md`.
 - Exact physical output depends on 100% print scale and printer-driver behavior.
 - The public utility is indexable; the site is a single client-side route with no server-side access control.
+
+<br />
 
 ## License
 
