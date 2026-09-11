@@ -1,0 +1,61 @@
+<!doctype html>
+<!-- Todo Print social card. Source of truth for public/social-card.jpg, served at
+     https://todoprint.martonpaulo.com/social-card.jpg (1200x630). Never edit the JPEG.
+     Render on a Mac (the drawn interface uses the system font): npm run social-card
+     System, grid and contrast rules: the social card standard (skill-deck#261).
+     Fonts: Gabarito and Figtree (OFL, fonts/*-OFL.txt), the typefaces of martonpaulo.com. -->
+<meta charset="utf-8">
+<title>Todo Print social card</title>
+<style>
+@font-face { font-family: "Gabarito"; font-weight: 700; src: url(fonts/gabarito-latin-700-normal.woff2); }
+@font-face { font-family: "Figtree"; font-weight: 400; src: url(fonts/figtree-latin-400-normal.woff2); }
+@font-face { font-family: "Figtree"; font-weight: 500; src: url(fonts/figtree-latin-500-normal.woff2); }
+@font-face { font-family: "Figtree"; font-weight: 600; src: url(fonts/figtree-latin-600-normal.woff2); }
+@font-face { font-family: "Figtree"; font-weight: 700; src: url(fonts/figtree-latin-700-normal.woff2); }
+html, body { margin: 0; }
+.card { position: relative; width: 1200px; height: 630px; overflow: hidden; font-family: "Figtree", sans-serif;
+        color: var(--ink); background: var(--gradient); }
+.card::before { content: ""; position: absolute; inset: 0; background: var(--glow, none); }
+/* One grid for every card: the copy block is centred vertically in a 440px column at x=96;
+   the product visual always starts at x=600, a fixed gutter. */
+.copy { position: absolute; left: 96px; top: 50%; transform: translateY(-50%); width: 440px; z-index: 2; }
+.icon { width: 104px; height: 104px; display: block; margin-bottom: 30px; filter: drop-shadow(0 16px 26px rgba(0,0,0,.22)); }
+.eyebrow { display: inline-block; margin: 0 0 20px; padding: 8px 16px; border-radius: 999px;
+           background: var(--pill-bg); border: 1px solid var(--pill-line);
+           font-weight: 700; font-size: 19px; letter-spacing: .1em; text-transform: uppercase; }
+h1 { margin: 0; font: 700 88px/1 "Gabarito", sans-serif; letter-spacing: -0.03em; }
+.promise { margin: 20px 0 0; font-weight: 500; font-size: 38px; line-height: 1.2; letter-spacing: -0.01em;
+           color: var(--ink-soft); text-wrap: balance; }
+.domain { margin: 34px 0 0; font-size: 24px; font-weight: 500; color: var(--ink-soft); }
+/* The drawn interface: the system font, the way the real app renders. */
+.ui { font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", sans-serif; color: #1f2937; }
+.win { position: absolute; background: #fff; border-radius: 22px;
+       box-shadow: 0 40px 80px rgba(15,23,42,.30), 0 8px 20px rgba(15,23,42,.12); }
+.bar { height: 11px; border-radius: 6px; background: #e5e7eb; }
+
+.card { --gradient: linear-gradient(135deg,#18181b 0%,#222226 40%,#2d2d33 70%,#45454d 100%); --glow: radial-gradient(640px 520px at 94% 55%,rgba(255,255,255,.12),transparent 65%); --ink: #fff; --ink-soft: rgba(255,255,255,.9);
+        --pill-bg: rgba(255,255,255,.1); --pill-line: rgba(255,255,255,.3); }
+.paper{left:600px;top:50%;transform:translateY(-50%);width:760px;height:537px;border-radius:4px;background:#fff;display:grid;grid-template-columns:repeat(3,1fr);padding:30px 0;box-sizing:border-box}
+.pn{padding:0 22px;border-right:1px solid #1d1d1f}.pn:last-child{border-right:0}
+.dt{font-size:20px;font-weight:700;color:#111;margin:2px 0 14px;letter-spacing:-.01em}
+.pl{font-size:9px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:#555;margin:6px 0 16px}
+.lh{font-size:14px;font-weight:700;color:#111;padding-bottom:6px;border-bottom:1.5px solid #111;margin:6px 0 10px}
+.it{display:flex;align-items:center;gap:8px;margin:0 0 11px}.bx{width:11px;height:11px;border:1.4px solid #333;border-radius:2px;flex:0 0 auto}
+.it .bar{height:7px;background:#cfcfd4}
+.zoom{left:636px;top:28px;display:flex;gap:14px;align-items:center;padding:7px 14px;border-radius:9px;font-size:13px;color:#333;box-shadow:0 10px 30px rgba(0,0,0,.35)}
+</style>
+<div class="card">
+  <div class="copy">
+    
+    <p class="eyebrow">Free in your browser</p>
+    <h1>Todo Print</h1>
+    <p class="promise">Plans that end up on paper, at exact A4</p>
+    <p class="domain">todoprint.martonpaulo.com</p>
+  </div>
+  <div class="win paper ui">
+    <div class="pn"><div class="dt">Friday, September 11</div><div class="lh">Top priorities</div><div class="it"><span class="bx"></span><span class="bar" style="width:150px"></span></div><div class="it"><span class="bx"></span><span class="bar" style="width:120px"></span></div><div class="it"><span class="bx"></span><span class="bar" style="width:96px"></span></div><div class="lh">Small wins</div><div class="it"><span class="bx"></span><span class="bar" style="width:118px"></span></div><div class="it"><span class="bx"></span><span class="bar" style="width:92px"></span></div><div class="it"><span class="bx"></span><span class="bar" style="width:136px"></span></div><div class="lh">Later</div><div class="it"><span class="bx"></span><span class="bar" style="width:104px"></span></div><div class="it"><span class="bx"></span><span class="bar" style="width:140px"></span></div><div class="it"><span class="bx"></span><span class="bar" style="width:86px"></span></div></div>
+    <div class="pn"><div class="pl">Panel 2 / 3</div><div class="lh">Work</div><div class="it"><span class="bx"></span><span class="bar" style="width:128px"></span></div><div class="it"><span class="bx"></span><span class="bar" style="width:104px"></span></div><div class="it"><span class="bx"></span><span class="bar" style="width:90px"></span></div><div class="it"><span class="bx"></span><span class="bar" style="width:140px"></span></div><div class="it"><span class="bx"></span><span class="bar" style="width:112px"></span></div><div class="lh">Calls</div><div class="it"><span class="bx"></span><span class="bar" style="width:96px"></span></div><div class="it"><span class="bx"></span><span class="bar" style="width:126px"></span></div><div class="it"><span class="bx"></span><span class="bar" style="width:84px"></span></div><div class="lh">Reading</div><div class="it"><span class="bx"></span><span class="bar" style="width:132px"></span></div><div class="it"><span class="bx"></span><span class="bar" style="width:98px"></span></div></div>
+    <div class="pn"><div class="pl">Panel 3 / 3</div><div class="lh">Personal</div><div class="it"><span class="bx"></span><span class="bar" style="width:110px"></span></div><div class="it"><span class="bx"></span><span class="bar" style="width:124px"></span></div><div class="it"><span class="bx"></span><span class="bar" style="width:96px"></span></div><div class="it"><span class="bx"></span><span class="bar" style="width:82px"></span></div><div class="lh">Groceries</div><div class="it"><span class="bx"></span><span class="bar" style="width:70px"></span></div><div class="it"><span class="bx"></span><span class="bar" style="width:92px"></span></div><div class="it"><span class="bx"></span><span class="bar" style="width:64px"></span></div><div class="it"><span class="bx"></span><span class="bar" style="width:88px"></span></div><div class="it"><span class="bx"></span><span class="bar" style="width:76px"></span></div><div class="lh">Notes</div><div class="it"><span class="bx"></span><span class="bar" style="width:120px"></span></div></div>
+  </div>
+  <div class="win zoom ui"><span>−</span><b>100%</b><span>+</span></div>
+</div>
