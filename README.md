@@ -1,10 +1,71 @@
+<div align="center">
+
+<img src="public/social-card.jpg" width="100%" alt="Todo Print: plans that end up on paper, at exact A4, with three todo-list panels on one landscape page">
+
 # Todo Print
 
-![Todo Print: plans that end up on paper, at exact A4, with three todo-list panels on one landscape page](public/social-card.jpg)
+Design structured todo lists in a visual or Markdown editor and print them as exact-size A4 pages, three fixed panels per landscape sheet.
 
-Design structured todo lists in a visual or Markdown editor, preview atomic `99mm × 210mm` panels live, and print three panels per A4 landscape page.
+[![Validate and deploy](https://github.com/martonpaulo/todo-print/actions/workflows/deploy.yml/badge.svg)](https://github.com/martonpaulo/todo-print/actions/workflows/deploy.yml) [![PR conventions](https://github.com/martonpaulo/todo-print/actions/workflows/pr-conventions.yml/badge.svg)](https://github.com/martonpaulo/todo-print/actions/workflows/pr-conventions.yml) [![React 19](https://img.shields.io/badge/React-19-149eca)](https://react.dev/) [![Vite 8](https://img.shields.io/badge/Vite-8-646cff)](https://vite.dev/) [![TypeScript 6](https://img.shields.io/badge/TypeScript-6-3178c6)](https://www.typescriptlang.org/)
 
-**Live app:** [todoprint.martonpaulo.com](https://todoprint.martonpaulo.com/)
+</div>
+
+**Todo Print** is for plans that end up on paper. Write a day's lists in a visual editor or in a
+small Markdown subset, watch them flow into atomic `99mm x 210mm` panels as you type, and print
+**three panels per A4 landscape page** at true physical size. Lists move between panels on their
+own but are **never split**, and an overflow preflight blocks a printout that would come out
+clipped.
+
+It is a **browser-only tool**: no account, no backend, no analytics, and nothing uploaded. The
+document lives in this browser's `localStorage`, exports and imports as plain Markdown, and becomes
+a PDF through the browser's own print path. An optional typography setting redraws list content in
+the **geometric alphabet William Moon published in 1845**.
+
+<br />
+
+---
+
+## 🌱 Quick Start
+
+```bash
+npm install
+npm run dev
+```
+
+Then open `http://localhost:5173` — Vite prints the exact URL in the terminal.
+
+Requirements:
+
+- **Node.js 24**, or another Vite 8-compatible release, and **npm 11+**
+- A **Chromium-family browser** with `localStorage`, `ResizeObserver` and print CSS support.
+  Chromium is the supported family; print output is verified against it only.
+
+<br />
+
+## 🛠 Commands
+
+| Command | What it does |
+| :--- | :--- |
+| `npm run dev` | Vite dev server |
+| `npm run build` | `tsc -b` then the production build into `dist/` |
+| `npm run preview` | Serves `dist/` locally |
+| `npm run lint` | oxlint |
+| `npm test` | Vitest: Markdown conversion, persisted-data validation, atomic pagination |
+| `npm run test:watch` | The same suite, watching |
+| `npm run test:print` | The printed-page geometry check, in headless Chrome |
+| `npm run check` | `lint`, `test`, `test:print`, `build`, in that order; the gate before a commit |
+| `npm run profile` | Builds and drives a production build to report the editing-latency profile |
+| `npm run social-card` | Renders `design/social-card/` into `public/social-card.jpg` |
+
+<br />
+
+## 🔐 Secrets and variables
+
+**There are none.** The app reads no environment variable, has no `.env` file and holds no
+credential — it has no backend to hold one for. The deploy workflow uses only the repository's
+native `GITHUB_TOKEN`, which GitHub Actions provides automatically.
+
+<br />
 
 ## Highlights
 
@@ -18,21 +79,6 @@ Design structured todo lists in a visual or Markdown editor, preview atomic `99m
 - Markdown export and import, and a PDF saved through the browser's own print path
 - Browser-only persistence with no account, backend, analytics, or content upload
 - Monochrome design tokens in `src/styles/tokens.css`
-
-## Requirements
-
-- Node.js 24 or a Vite 8-compatible Node.js release
-- npm 11+
-- A Chromium-family browser with `localStorage`, `ResizeObserver`, and print CSS support. Chromium is the supported family; print output is verified against it only.
-
-## Setup
-
-```bash
-npm install
-npm run dev
-```
-
-The development server prints its local URL in the terminal.
 
 ## Usage
 
@@ -150,6 +196,8 @@ Tests cover Markdown conversion, persisted-data validation, and atomic paginatio
 
 `npm run profile` drives a production build in a headless Chromium and reports the editing-latency profile. `docs/performance.md` records the supported document scale, the budget, and the measured results.
 
+[CONTRIBUTING.md](CONTRIBUTING.md) has how to report a bug and the branch, commit and pull request conventions.
+
 ## Privacy and security
 
 Todo content is stored only in this browser under `localStorage`. The app has no backend, account system, analytics, or content API. Clearing site data removes the saved document.
@@ -172,4 +220,4 @@ Pull requests run lint, tests, and a production build. A validated push to `main
 
 ## License
 
-[MIT](LICENSE) © 2026 martonpaulo
+[MIT](LICENSE) © 2026 Marton Paulo.
