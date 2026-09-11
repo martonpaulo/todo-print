@@ -42,10 +42,10 @@ changing a physical dimension means changing that record.
 
 ```bash
 npm install
-npm run check
+npm run validate
 ```
 
-That is `lint`, `test`, `test:print` and `build`, in that order.
+That is `lint`, `test`, `test:print` and `build`, in that order. `npm run check` is an alias of it.
 
 `npm run test:print` needs a real browser: it serves the app, drives it in headless Chrome and
 measures the rendered sheet and its panels in millimetres. The first run downloads Chrome into

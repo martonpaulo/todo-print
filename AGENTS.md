@@ -178,7 +178,7 @@ When the user must notice and respond to a proposed follow-up, material choice, 
 
 - Add or update focused tests for changed behavior, persistence, validation, critical accessibility, Markdown conversion, and pagination.
 - Test observable contracts at stable seams; avoid tests that mirror implementation details.
-- During iteration run the smallest relevant check. Before completion run `npm run check` and `npm run build`.
+- During iteration run the smallest relevant check. Before completion run `npm run validate`, which ends with `npm run build`.
 - Never claim a check passed unless it ran successfully. Report skips, blockers, residual risk, and manual print-validation gaps.
 
 ## Artifacts and processes
