@@ -29,7 +29,7 @@
 - Commit subject: a commit made for an issue ends with `(#<issue number>)`.
 - Delete branches after merge: enabled.
 - Default branch review policy: none required. Ruleset `22041475` no longer exists, and since 2026-09-11 validated work goes straight to `main`. A pull request, when used, squash-merges after the `validate` check; the `agent-approver` GitHub App (id `4779359`) stays installed for orchestrated lanes.
-- Release, signing, and secret-storage policy: `Validate` (`.github/workflows/validate.yml`) runs on every push and pull request; `Deploy` (`.github/workflows/deploy.yml`) waits for it to succeed on `main`, never repeating its checks, and deploys the static build to GitHub Pages through GitHub Actions when the push changes a file the build reads, skipping the deploy for a change outside the build's inputs. Use only the repository-scoped `GITHUB_TOKEN`; there are no release artifacts, signing identities, or project secrets.
+- Release, signing, and secret-storage policy: `Validate` (`.github/workflows/validate.yml`) runs on every push and pull request; `Deploy` (`.github/workflows/deploy.yml`) waits for it to succeed on `main`, never repeating its checks, and deploys the static build to GitHub Pages through GitHub Actions on every successful run. Use only the repository-scoped `GITHUB_TOKEN`; there are no release artifacts, signing identities, or project secrets.
 - Skills baseline revision: `45d40d7a35ad074249006f3c058b63299e65a074`
 - Skills baseline applied: `2026-09-01`
 
