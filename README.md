@@ -28,37 +28,39 @@ the **geometric alphabet William Moon published in 1845**.
 <br />
 
 ## 🌱 Quick Start
+
+Requires **Node.js 24** and **npm 11 or newer**.
+
 ```bash
+git clone https://github.com/martonpaulo/todo-print.git
+cd todo-print
 npm install
 npm run dev
 ```
 
-Then open [http://localhost:5173](http://localhost:5173).
+[http://localhost:5173](http://localhost:5173)
 
-Vite prints the exact URL in the terminal.
+Vite prints the exact URL in the terminal, which differs when that port is already taken.
 
-Requirements:
-
-- **Node.js 24**, or another Vite 8-compatible release, and **npm 11+**
-- A **Chromium-family browser** with `localStorage`, `ResizeObserver` and print CSS support.
-  Chromium is the supported family; print output is verified against it only.
+A **Chromium-family browser** is the supported target: print output is verified against it only, and the app needs `localStorage`, `ResizeObserver` and print CSS.
 
 <br />
 
 ## 🛠 Commands
+
 | Command | What it does |
-| :--- | :--- |
-| `npm run dev` | Vite dev server |
-| `npm run build` | `tsc -b` then the production build into `dist/` |
-| `npm run preview` | Serves `dist/` locally |
-| `npm run lint` | oxlint |
-| `npm test` | Vitest: Markdown conversion, persisted-data validation, atomic pagination |
-| `npm run test:watch` | The same suite, watching |
-| `npm run test:print` | The printed-page geometry check, in headless Chrome |
-| `npm run validate` | `lint`, `test`, `test:print`, `build`, in that order; the gate before a commit |
-| `npm run check` | Alias of `npm run validate`, kept for muscle memory |
-| `npm run profile` | Builds and drives a production build to report the editing-latency profile |
-| `npm run social-card` | Renders `design/social-card/` into `public/social-card.jpg` |
+| --- | --- |
+| `npm run validate` | Runs the full gate before a commit: `lint`, `test`, `test:print`, `build`, in that order. |
+| `npm run check` | Runs the same gate; an alias kept for muscle memory. |
+| `npm run dev` | Starts the Vite dev server. |
+| `npm run build` | Type-checks with `tsc -b`, then builds production output into `dist/`. |
+| `npm run preview` | Serves the built `dist/` locally. |
+| `npm run lint` | Runs oxlint over the repository. |
+| `npm test` | Runs Vitest over Markdown conversion, persisted-data validation and atomic pagination. |
+| `npm run test:watch` | Runs the same suite in watch mode. |
+| `npm run test:print` | Measures the printed-page geometry in headless Chrome, downloading Chrome on first run. |
+| `npm run profile` | Builds and drives a production build to report the editing-latency profile. |
+| `npm run social-card` | Renders `design/social-card/` into `public/social-card.jpg`. |
 
 ---
 
