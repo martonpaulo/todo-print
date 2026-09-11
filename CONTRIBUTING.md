@@ -35,8 +35,7 @@ changing a physical dimension means changing that record.
   `fix: normalize carriage returns (#54, #61)`.
 - Start the pull request body with one `Closes #<n>` line per resolved issue, then the problem, the
   implementation, the tests with their results, and the residual risk.
-- The `pr-conventions` check enforces the title and the closing block. `validate` must pass too.
-  Pull requests are squash-merged.
+- The `validate` check must pass. Pull requests are squash-merged.
 - Never force-push.
 
 ## Run the validation gate

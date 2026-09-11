@@ -1,45 +1,53 @@
-name: Validate and deploy
+name: Deploy
 
 on:
-  push:
-    branches: [main]
-  pull_request:
+  # Deploy never revalidates: it waits for Validate to pass on the default
+  # branch and publishes that commit.
+  workflow_run:
+    workflows: [Validate]
+    types: [completed]
   workflow_dispatch:
 
 permissions:
   contents: read
 
 concurrency:
-  group: pages-${{ github.ref }}
-  cancel-in-progress: true
+  group: pages-deploy
+  cancel-in-progress: false
 
 jobs:
-  validate:
+  build:
+    if: >-
+      github.event_name != 'workflow_run' ||
+      (github.event.workflow_run.conclusion == 'success' &&
+       github.event.workflow_run.head_branch == 'main')
     runs-on: ubuntu-latest
     outputs:
       deploy_needed: ${{ steps.changed.outputs.deploy_needed }}
     steps:
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          # The commit Validate approved; empty (the default branch) for a manual dispatch.
+          ref: ${{ github.event.workflow_run.head_sha }}
+          # Enough history for the change filter below to read the parent commit.
+          fetch-depth: 2
       # Does this push change anything the build reads? The set below is derived from the build,
       # not from file extensions: vite.config.ts and tsconfig.app.json resolve the application from
       # index.html, src/ and public/; the package files fix its dependencies; the tsconfig and
       # vite files shape the output; this workflow decides how it is built. AGENTS.md, README.md,
-      # docs/, .ao/, .gemini/ and the conventions workflow are outside it because nothing in
-      # `tsc -b && vite build` reads them. This gates the deploy job only — never the trigger —
-      # because `validate` is a required status check and must report on every push and pull
-      # request. An unknowable changed set (first push, force-push, workflow_dispatch) deploys.
+      # docs/, .ao/, .gemini/ and the validation workflow are outside it because nothing in
+      # `tsc -b && vite build` reads them. An unknowable changed set (first push, force-push,
+      # workflow_dispatch) deploys.
       - name: Decide whether the deploy is needed
         id: changed
         env:
-          BEFORE: ${{ github.event.before }}
-          AFTER: ${{ github.sha }}
-          EVENT: ${{ github.event_name }}
+          BEFORE: ${{ (github.event_name == 'workflow_run' && github.event.workflow_run.event == 'push') && format('{0}^', github.event.workflow_run.head_sha) || '' }}
+          AFTER: ${{ github.event.workflow_run.head_sha || github.sha }}
         run: |
           set -u
           needed=true
-          if [ "$EVENT" = push ] && [ -n "$BEFORE" ] && ! printf '%s' "$BEFORE" | grep -Eq '^0+$' \
-             && git fetch --quiet --depth=1 origin "$BEFORE" 2>/dev/null; then
+          if [ -n "$BEFORE" ] && git cat-file -e "$BEFORE^{commit}" 2>/dev/null; then
             changed=$(git diff --name-only "$BEFORE" "$AFTER")
             if [ -n "$changed" ] && ! printf '%s\n' "$changed" | grep -Eq \
                 '^(index\.html|src/|public/|package\.json|package-lock\.json|vite\.config\.ts|tsconfig(\.app|\.node)?\.json|\.github/workflows/deploy\.yml)'; then
@@ -50,44 +58,32 @@ jobs:
           echo "deploy_needed=$needed" >> "$GITHUB_OUTPUT"
           echo "deploy needed: $needed"
       - name: Set up Node
+        if: steps.changed.outputs.deploy_needed == 'true'
         uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
         with:
           node-version: 24
           cache: npm
       - name: Install dependencies
+        if: steps.changed.outputs.deploy_needed == 'true'
         run: npm ci
-      # `setup-node`'s `cache: npm` covers the npm cache only. Puppeteer's Chrome lives in
-      # ~/.cache/puppeteer, and npm 11 skips lifecycle scripts by default, so Puppeteer's postinstall
-      # never provisions it; tests/print-geometry/geometry.test.ts falls back to
-      # `npx puppeteer browsers install chrome` on first launch and populates exactly this path.
-      # The key covers both files that can move the pinned build: package-lock.json fixes the resolved
-      # Puppeteer version, and .puppeteerrc.cjs overrides the Chrome revision that version carries.
-      # Either one changing has to miss. The lockfile alone stopped being sufficient in #45, which
-      # added the override. No restore-keys: a partial hit would supply a Chrome for a different
-      # build, which fails at launch instead of falling through to a download.
-      - name: Cache Puppeteer browsers
-        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
-        with:
-          path: ~/.cache/puppeteer
-          key: puppeteer-${{ runner.os }}-${{ hashFiles('package-lock.json', '.puppeteerrc.cjs') }}
-      # One step, running the same `check` a developer runs locally: lint, the browser-free suite,
-      # the printed-page geometry check and the build. Kept as a single step on purpose -- three
-      # separate steps let CI's definition of "validated" drift away from package.json's, which is
-      # how the geometry check came to run nowhere in CI (#26).
-      - name: Check
-        run: npm run check
+      # Only the build. The lint and the two suites belong to Validate and are not repeated;
+      # `actions/deploy-pages` can only read an artifact uploaded in its own run, which is why
+      # `dist/` is produced here.
+      - name: Build
+        if: steps.changed.outputs.deploy_needed == 'true'
+        run: npm run build
       - name: Configure Pages
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main' && steps.changed.outputs.deploy_needed == 'true'
+        if: steps.changed.outputs.deploy_needed == 'true'
         uses: actions/configure-pages@45bfe0192ca1faeb007ade9deae92b16b8254a0d # v6
       - name: Upload Pages artifact
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main' && steps.changed.outputs.deploy_needed == 'true'
+        if: steps.changed.outputs.deploy_needed == 'true'
         uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5
         with:
           path: ./dist
 
   deploy:
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main' && needs.validate.outputs.deploy_needed == 'true'
-    needs: validate
+    needs: build
+    if: needs.build.outputs.deploy_needed == 'true'
     runs-on: ubuntu-latest
     permissions:
       contents: read

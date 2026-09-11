@@ -6,7 +6,7 @@
 
 Design structured todo lists in a visual or Markdown editor and print them as exact-size A4 pages, three fixed panels per landscape sheet.
 
-[![Validate and deploy](https://github.com/martonpaulo/todo-print/actions/workflows/deploy.yml/badge.svg)](https://github.com/martonpaulo/todo-print/actions/workflows/deploy.yml) [![PR conventions](https://github.com/martonpaulo/todo-print/actions/workflows/pr-conventions.yml/badge.svg)](https://github.com/martonpaulo/todo-print/actions/workflows/pr-conventions.yml) [![React 19](https://img.shields.io/badge/React-19-149eca)](https://react.dev/) [![Vite 8](https://img.shields.io/badge/Vite-8-646cff)](https://vite.dev/) [![TypeScript 6](https://img.shields.io/badge/TypeScript-6-3178c6)](https://www.typescriptlang.org/)
+[![Validate](https://github.com/martonpaulo/todo-print/actions/workflows/validate.yml/badge.svg)](https://github.com/martonpaulo/todo-print/actions/workflows/validate.yml) [![Deploy](https://github.com/martonpaulo/todo-print/actions/workflows/deploy.yml/badge.svg)](https://github.com/martonpaulo/todo-print/actions/workflows/deploy.yml) [![React 19](https://img.shields.io/badge/React-19-149eca)](https://react.dev/) [![Vite 8](https://img.shields.io/badge/Vite-8-646cff)](https://vite.dev/) [![TypeScript 6](https://img.shields.io/badge/TypeScript-6-3178c6)](https://www.typescriptlang.org/)
 
 </div>
 
@@ -220,7 +220,7 @@ The editor states whether the document on screen is the one the browser holds. W
 
 ## Deployment
 
-Pull requests run lint, tests, and a production build. A validated push to `main` uploads `dist/` and deploys it through GitHub Pages using the repository's native `GITHUB_TOKEN`.
+`Validate` runs lint, tests, and a production build on every push and pull request. `Deploy` waits for it to succeed on `main` — it never repeats those checks — then builds, uploads `dist/` and deploys it through GitHub Pages using the repository's native `GITHUB_TOKEN`.
 
 ---
 
