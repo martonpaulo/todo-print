@@ -32,7 +32,9 @@ npm install
 npm run dev
 ```
 
-Then open `http://localhost:5173` — Vite prints the exact URL in the terminal.
+Then open [http://localhost:5173](http://localhost:5173).
+
+Vite prints the exact URL in the terminal.
 
 Requirements:
 
