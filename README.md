@@ -27,8 +27,7 @@ the **geometric alphabet William Moon published in 1845**.
 
 <br />
 
-## Quick Start
-
+## 🌱 Quick Start
 ```bash
 npm install
 npm run dev
@@ -46,8 +45,7 @@ Requirements:
 
 <br />
 
-## Commands
-
+## 🛠 Commands
 | Command | What it does |
 | :--- | :--- |
 | `npm run dev` | Vite dev server |
