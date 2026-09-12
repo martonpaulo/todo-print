@@ -1,0 +1,60 @@
+name: Bug report
+description: Report something in Todo Print that does not work the way it should.
+title: "bug: "
+labels: ["type: bug"]
+body:
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: What did you expect instead?
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: For a Markdown problem, paste the exact source — Export Markdown gives it verbatim.
+      placeholder: |
+        1. Open the editor…
+        2. Type…
+        3. Observe…
+    validations:
+      required: true
+
+  - type: input
+    id: browser
+    attributes:
+      label: Browser and version
+      placeholder: Chrome 141 on macOS 26
+    validations:
+      required: true
+
+  - type: dropdown
+    id: private-window
+    attributes:
+      label: Does it still happen in a private window?
+      description: A private window rules out an extension or stale stored state.
+      options:
+        - "Yes"
+        - "No"
+        - Not checked
+    validations:
+      required: true
+
+  - type: textarea
+    id: print-settings
+    attributes:
+      label: Print settings
+      description: |
+        Only for a printing problem: paper, orientation, margins, scale, and whether headers and
+        footers were on. A PDF saved through the browser's print dialog is the most useful
+        attachment.
+      placeholder: A4, landscape, margins none, scale 100%, headers and footers off
