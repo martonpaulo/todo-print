@@ -1,6 +1,6 @@
 /**
  * Puppeteer reads this file through `lilconfig` from the working directory, so `puppeteer.launch()`,
- * `puppeteer.executablePath()` and `npx puppeteer browsers install chrome` all resolve the same
+ * `puppeteer.executablePath()` and `pnpm exec puppeteer browsers install chrome` all resolve the same
  * browser: the CLI turns a version-less `install chrome` into the pinned build id below rather than
  * the revision the installed Puppeteer happens to carry.
  *
@@ -12,7 +12,7 @@ module.exports = {
   /**
    * Chrome for Testing 152.0.7977.75, the build this project's print geometry is verified against.
    * It is deliberately newer than the revision Puppeteer 25.9.0 pins (152.0.7977.54), so it is only
-   * acceptable while `npm run check` passes against it: revalidate or drop this line on every
+   * acceptable while `pnpm check` passes against it: revalidate or drop this line on every
    * Puppeteer upgrade instead of letting the override drift silently.
    */
   chrome: { version: "152.0.7977.75" },

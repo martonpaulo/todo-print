@@ -1,8 +1,8 @@
 import react from "@vitejs/plugin-react";
 import { defineConfig } from "vitest/config";
 
-// The printed-page geometry check drives a real browser, so it is kept out of the default `npm test`
-// loop and given its own `npm run test:print` entry point. `npm run check` runs both.
+// The printed-page geometry check drives a real browser, so it is kept out of the default `pnpm test`
+// loop and given its own `pnpm test:print` entry point. `pnpm check` runs both.
 export default defineConfig({
   base: "/",
   plugins: [react()],

@@ -175,14 +175,14 @@ virtualization, and any cache or timer.
 ## Reproducing the profile
 
 ```bash
-npm run profile
+pnpm profile
 ```
 
 That builds the harness and prints one JSON report covering 10, 100, and 500
 lists. Useful arguments:
 
 ```bash
-npm run profile -- --scales 10,25,50,100 --iterations 25 --warmup 5 --repeats 3
+pnpm profile -- --scales 10,25,50,100 --iterations 25 --warmup 5 --repeats 3
 ```
 
 - `--scales`: comma-separated list counts. `--tasks` sets tasks per list (10).
@@ -199,7 +199,7 @@ Moving parts:
   checks provision and launch Chrome the same way. A harness that throws aborts
   the run immediately with the page's own error.
 - `vite.profile.config.ts` builds `profile/index.html` into `.profile-dist`,
-  separately from `npm run build`, so the deployed application keeps exactly one
+  separately from `pnpm build`, so the deployed application keeps exactly one
   route and never ships harness code. It aliases `react-dom/client` to
   `react-dom/profiling` so `<Profiler>` reports timings in an otherwise
   production build.

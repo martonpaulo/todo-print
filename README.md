@@ -29,13 +29,13 @@ the **geometric alphabet William Moon published in 1845**.
 
 ## 🌱 Quick Start
 
-Requires **Node.js 24** and **npm 11 or newer**.
+Requires **Node.js 24** and **pnpm 11 or newer**.
 
 ```bash
 git clone https://github.com/martonpaulo/todo-print.git
 cd todo-print
-npm install
-npm run dev
+pnpm install
+pnpm dev
 ```
 
 [http://localhost:5173](http://localhost:5173)
@@ -50,18 +50,18 @@ A **Chromium-family browser** is the supported target: print output is verified 
 
 | Command | What it does |
 | --- | --- |
-| `npm run validate` | Runs the full gate before a commit: `lint`, `test`, `test:print`, `build`, in that order. |
-| `npm run check` | Runs the same gate; an alias kept for muscle memory. |
-| `npm run dev` | Starts the Vite dev server. |
-| `npm run build` | Type-checks with `tsc -b`, then builds production output into `dist/`. |
-| `npm run preview` | Serves the built `dist/` locally. |
-| `npm run lint` | Runs Biome over the repository: lint rules, formatting and import order. |
-| `npm run format` | Applies what `npm run lint` reports and can fix safely. |
-| `npm test` | Runs Vitest over Markdown conversion, persisted-data validation and atomic pagination. |
-| `npm run test:watch` | Runs the same suite in watch mode. |
-| `npm run test:print` | Measures the printed-page geometry in headless Chrome, downloading Chrome on first run. |
-| `npm run profile` | Builds and drives a production build to report the editing-latency profile. |
-| `npm run social-card` | Renders `design/social-card/` into `public/social-card.jpg`. |
+| `pnpm validate` | Runs the full gate before a commit: `lint`, `test`, `test:print`, `build`, in that order. |
+| `pnpm check` | Runs the same gate; an alias kept for muscle memory. |
+| `pnpm dev` | Starts the Vite dev server. |
+| `pnpm build` | Type-checks with `tsc -b`, then builds production output into `dist/`. |
+| `pnpm preview` | Serves the built `dist/` locally. |
+| `pnpm lint` | Runs Biome over the repository: lint rules, formatting and import order. |
+| `pnpm format` | Applies what `pnpm lint` reports and can fix safely. |
+| `pnpm test` | Runs Vitest over Markdown conversion, persisted-data validation and atomic pagination. |
+| `pnpm test:watch` | Runs the same suite in watch mode. |
+| `pnpm test:print` | Measures the printed-page geometry in headless Chrome, downloading Chrome on first run. |
+| `pnpm profile` | Builds and drives a production build to report the editing-latency profile. |
+| `pnpm social-card` | Renders `design/social-card/` into `public/social-card.jpg`. |
 
 ---
 
@@ -189,24 +189,24 @@ All reusable visual and physical layout values live in `src/styles/tokens.css`. 
 ## Validation
 
 ```bash
-npm run validate
+pnpm validate
 ```
 
-That is `lint`, `test`, `test:print` and `build`, in that order. `npm run check` is an alias of it.
+That is `lint`, `test`, `test:print` and `build`, in that order. `pnpm check` is an alias of it.
 During iteration run the smallest relevant piece instead:
 
 ```bash
-npm run lint
-npm test
-npm run test:print
-npm run build
+pnpm lint
+pnpm test
+pnpm test:print
+pnpm build
 ```
 
 Tests cover Markdown conversion, persisted-data validation, and atomic pagination. Pixel snapshots are intentionally omitted because they do not prove physical print dimensions.
 
-`npm run test:print` is the printed-page geometry check. It serves the app, drives it in headless Chrome, and measures the rendered sheet and its panels in millimetres against the printed-page contract recorded in `AGENTS.md`, which it parses rather than repeats. It also generates a PDF through the browser's own print path and measures the declared page box. It needs a browser, so it is kept out of `npm test`; `npm run validate` runs it. The first run downloads Chrome into Puppeteer's cache if `npm install` did not already provision it. `.puppeteerrc.cjs` pins that browser to one Chrome for Testing build and skips the chrome-headless-shell and Firefox downloads, so every machine and CI measure the same Chromium.
+`pnpm test:print` is the printed-page geometry check. It serves the app, drives it in headless Chrome, and measures the rendered sheet and its panels in millimetres against the printed-page contract recorded in `AGENTS.md`, which it parses rather than repeats. It also generates a PDF through the browser's own print path and measures the declared page box. It needs a browser, so it is kept out of `pnpm test`; `pnpm validate` runs it. The first run downloads Chrome into Puppeteer's cache if `pnpm install` did not already provision it. `.puppeteerrc.cjs` pins that browser to one Chrome for Testing build and skips the chrome-headless-shell and Firefox downloads, so every machine and CI measure the same Chromium.
 
-`npm run profile` drives a production build in a headless Chromium and reports the editing-latency profile. `docs/performance.md` records the supported document scale, the budget, and the measured results.
+`pnpm profile` drives a production build in a headless Chromium and reports the editing-latency profile. `docs/performance.md` records the supported document scale, the budget, and the measured results.
 
 [CONTRIBUTING.md](CONTRIBUTING.md) has how to report a bug and the branch, commit and pull request conventions.
 

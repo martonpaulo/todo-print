@@ -28,18 +28,20 @@ jobs:
         with:
           # The commit Validate approved; empty (the default branch) for a manual dispatch.
           ref: ${{ github.event.workflow_run.head_sha }}
+      - name: Install pnpm
+        uses: pnpm/action-setup@0977fd99725f1db4007ccb2928dbb4e90d06cc86 # v6.0.10
       - name: Set up Node
         uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
         with:
           node-version: 24
-          cache: npm
+          cache: pnpm
       - name: Install dependencies
-        run: npm ci
+        run: pnpm install --frozen-lockfile
       # Only the build. The lint and the two suites belong to Validate and are not repeated;
       # `actions/deploy-pages` can only read an artifact uploaded in its own run, which is why
       # `dist/` is produced here.
       - name: Build
-        run: npm run build
+        run: pnpm build
       - name: Configure Pages
         uses: actions/configure-pages@45bfe0192ca1faeb007ade9deae92b16b8254a0d # v6
       - name: Upload Pages artifact

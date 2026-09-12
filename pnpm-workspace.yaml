@@ -1,0 +1,6 @@
+# Puppeteer's postinstall is deliberately not run. It would download Chrome on every install,
+# including in CI before `actions/cache` has restored ~/.cache/puppeteer. The print-geometry
+# check provisions the pinned build itself on first launch instead, which is the path
+# `.github/workflows/validate.yml` caches.
+allowBuilds:
+  puppeteer: false

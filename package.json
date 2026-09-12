@@ -1,6 +1,7 @@
 {
   "name": "todo-print-editor",
   "private": true,
+  "packageManager": "pnpm@11.7.0",
   "version": "0.0.0",
   "description": "Design and print structured todo lists as exact-size A4 layouts from a visual or Markdown editor.",
   "homepage": "https://todoprint.martonpaulo.com/",
@@ -17,12 +18,12 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "test:print": "vitest run --config vitest.print.config.ts",
-    "validate": "npm run lint && npm run test && npm run test:print && npm run build",
-    "check": "npm run validate",
+    "validate": "pnpm lint && pnpm test && pnpm test:print && pnpm build",
+    "check": "pnpm validate",
     "preview": "vite preview",
     "profile:build": "vite build --config vite.profile.config.ts",
-    "profile": "npm run profile:build && node scripts/profile.mjs",
-    "social-card": "npx --yes playwright@1.63.0 screenshot --viewport-size=1200,630 \"file://$PWD/design/social-card/social-card.html\" \"${TMPDIR:-/tmp}/todoprint-card.png\" && magick \"${TMPDIR:-/tmp}/todoprint-card.png\" -strip -quality 92 -sampling-factor 4:4:4 -interlace Plane public/social-card.jpg"
+    "profile": "pnpm profile:build && node scripts/profile.mjs",
+    "social-card": "pnpm dlx playwright@1.63.0 screenshot --viewport-size=1200,630 \"file://$PWD/design/social-card/social-card.html\" \"${TMPDIR:-/tmp}/todoprint-card.png\" && magick \"${TMPDIR:-/tmp}/todoprint-card.png\" -strip -quality 92 -sampling-factor 4:4:4 -interlace Plane public/social-card.jpg"
   },
   "dependencies": {
     "@fontsource/figtree": "5.3.0",

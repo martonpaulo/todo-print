@@ -22,7 +22,7 @@ For a **Markdown** problem, paste the exact source, including anything the parse
 Open an issue before writing code. The Markdown subset, the panel geometry and the browser-only
 storage model are deliberate limits rather than gaps; [`AGENTS.md`](AGENTS.md) records the printed-page
 contract and the patterns the code repeats, and [`CONTEXT.md`](CONTEXT.md) the domain vocabulary.
-Note that `npm run test:print` parses the contract in `AGENTS.md` rather than repeating it, so
+Note that `pnpm test:print` parses the contract in `AGENTS.md` rather than repeating it, so
 changing a physical dimension means changing that record.
 
 ## Branches, commits and pull requests
@@ -41,17 +41,17 @@ changing a physical dimension means changing that record.
 ## Run the validation gate
 
 ```bash
-npm install
-npm run validate
+pnpm install
+pnpm validate
 ```
 
-That is `lint`, `test`, `test:print` and `build`, in that order. `npm run check` is an alias of it.
+That is `lint`, `test`, `test:print` and `build`, in that order. `pnpm check` is an alias of it.
 
-`npm run test:print` needs a real browser: it serves the app, drives it in headless Chrome and
+`pnpm test:print` needs a real browser: it serves the app, drives it in headless Chrome and
 measures the rendered sheet and its panels in millimetres. The first run downloads Chrome into
-Puppeteer's cache if `npm install` did not already provision it; `.puppeteerrc.cjs` pins that build
-so every machine and CI measure the same Chromium. It is kept out of `npm test` for that reason —
-use `npm test` for the fast loop.
+Puppeteer's cache if `pnpm install` did not already provision it; `.puppeteerrc.cjs` pins that build
+so every machine and CI measure the same Chromium. It is kept out of `pnpm test` for that reason —
+use `pnpm test` for the fast loop.
 
 ## Code of conduct
 

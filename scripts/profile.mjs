@@ -4,7 +4,7 @@
  * JSON report to stdout.
  *
  * The harness itself lives in `src/dev/harness.tsx` and must already be built
- * with `npm run profile:build`; `npm run profile` does both. This script serves
+ * with `pnpm profile:build`; `pnpm profile` does both. This script serves
  * that build and drives the browser with Puppeteer, the same browser the
  * printed-page geometry check uses, so both browser-driven checks provision and
  * launch Chrome the same way.
@@ -54,7 +54,7 @@ const waitFor = async (probe, description, timeoutMs = 60_000) => {
 };
 
 const launchBrowser = async () => {
-  // npm may be configured to skip install scripts, which is where Puppeteer
+  // pnpm does not run dependency install scripts by default, which is where Puppeteer
   // normally provisions the Chrome build `.puppeteerrc.cjs` pins. Fetch it once
   // through Puppeteer's own CLI rather than asking for a manual setup step.
   //
@@ -66,9 +66,13 @@ const launchBrowser = async () => {
   // `executablePath()` overload never validates the path, so it reports where the
   // configured build belongs whether or not it is installed.
   if (!existsSync(await puppeteer.executablePath())) {
-    execFileSync("npx", ["puppeteer", "browsers", "install", "chrome"], {
-      stdio: "inherit",
-    });
+    execFileSync(
+      "pnpm",
+      ["exec", "puppeteer", "browsers", "install", "chrome"],
+      {
+        stdio: "inherit",
+      },
+    );
   }
 
   return await puppeteer.launch({

@@ -7,7 +7,7 @@ import puppeteer, { type Browser, type Page } from "puppeteer";
  * supported browser family, so a check that needs a real layout engine needs this build.
  */
 export const launchBrowser = async (): Promise<Browser> => {
-  // npm may be configured to skip install scripts, which is where Puppeteer normally provisions the
+  // pnpm does not run dependency install scripts by default, which is where Puppeteer normally provisions the
   // Chrome build `.puppeteerrc.cjs` pins. Fetch it once through Puppeteer's own CLI rather than
   // asking for a manual setup step the contract says must not exist.
   //
@@ -19,9 +19,13 @@ export const launchBrowser = async (): Promise<Browser> => {
   // argument here precisely because that overload never validates the path, so it reports where the
   // configured build belongs whether or not it is installed.
   if (!existsSync(await puppeteer.executablePath())) {
-    execFileSync("npx", ["puppeteer", "browsers", "install", "chrome"], {
-      stdio: "inherit",
-    });
+    execFileSync(
+      "pnpm",
+      ["exec", "puppeteer", "browsers", "install", "chrome"],
+      {
+        stdio: "inherit",
+      },
+    );
   }
 
   return await puppeteer.launch({

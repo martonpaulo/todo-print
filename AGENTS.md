@@ -82,7 +82,7 @@ Treat these values as stable project decisions. Change an established identifier
 
 Rules for any executor working from a clone of this repository, including cloud executors that read only committed files.
 
-- Run tests with `npm test`; run lint and the formatter check with `npm run lint` (Biome). A change is not done while either fails on the exact current head.
+- Run tests with `pnpm test`; run lint and the formatter check with `pnpm lint` (Biome). A change is not done while either fails on the exact current head.
 - Branch as `<type>/<agent>/issue-<n>/<short-slug>`; commit with Conventional Commits, with the subject ending in `(#<n>)`.
 - Never push to `main` and never merge: open a pull request and stop. Merge belongs to the owner, or to GitHub auto-merge under the predicates recorded in `.ao/worker-rules.md`.
 - Start the pull request body with one `Closes #<n>` line per resolved issue, then document the problem, implementation, tests with results, and residual risk.
@@ -178,7 +178,7 @@ When the user must notice and respond to a proposed follow-up, material choice, 
 
 - Add or update focused tests for changed behavior, persistence, validation, critical accessibility, Markdown conversion, and pagination.
 - Test observable contracts at stable seams; avoid tests that mirror implementation details.
-- During iteration run the smallest relevant check. Before completion run `npm run validate`, which ends with `npm run build`.
+- During iteration run the smallest relevant check. Before completion run `pnpm validate`, which ends with `pnpm build`.
 - Never claim a check passed unless it ran successfully. Report skips, blockers, residual risk, and manual print-validation gaps.
 
 ## Artifacts and processes

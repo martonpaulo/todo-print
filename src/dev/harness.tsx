@@ -13,7 +13,7 @@ import "../styles/print.css";
  *
  * It mounts the real application against a generated document, drives the five
  * editing interactions with real DOM events, and reports per-interaction
- * latency distributions. It is built by `npm run profile:build` into a separate
+ * latency distributions. It is built by `pnpm profile:build` into a separate
  * output directory and is never part of the deployed application bundle.
  */
 
