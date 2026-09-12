@@ -55,16 +55,32 @@
    * grotesque chosen for print fidelity, and no webfont reaches it. Do not point this at Figtree.
    */
   --font-print: Arial, "Helvetica Neue", Helvetica, sans-serif;
-  --text-xs: 0.6875rem;
-  --text-sm: 0.8125rem;
-  --text-lg: 1.125rem;
-  --font-weight-body: 400;
-  --font-weight-control: 600;
-  --font-weight-strong: 700;
-  --font-weight-action: 700;
-  --font-weight-title: 700;
-  --tracking-wide: 0.1em;
-  --tracking-tight: -0.025em;
+
+  /*
+   * Shared settings from the fleet typography standard, copied verbatim and kept contiguous in its
+   * order: skill-deck/docs/typography-standard.md. The printed sheet does not follow the scale —
+   * its sizes are physical, in `--print-*` below — but it does take these weights.
+   */
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-md: 1.125rem;
+  --text-lg: 1.375rem;
+  --text-xl: clamp(1.75rem, 1.25rem + 1.5vw, 2.25rem);
+  --text-2xl: clamp(2.5rem, 1.5rem + 3.5vw, 4rem);
+  --text-3xl: clamp(3rem, 1.25rem + 6.5vw, 6.5rem);
+  --leading-tight: 1.08;
+  --leading-snug: 1.2;
+  --leading-relaxed: 1.4;
+  --leading-body: 1.6;
+  --tracking-display: -0.03em;
+  --tracking-body: -0.01em;
+  --tracking-eyebrow: 0.12em;
+  --weight-body: 400;
+  --weight-strong: 600;
+  --weight-display: 700;
+  --measure: 68ch;
+  --measure-narrow: 44ch;
+  --measure-title: 16ch;
 
   /* Spacing tokens */
   --space-1: 0.25rem;

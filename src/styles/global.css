@@ -6,7 +6,7 @@ html {
   color: var(--text-primary);
   background: var(--surface-canvas);
   font-family: var(--font-body);
-  font-weight: var(--font-weight-body);
+  font-weight: var(--weight-body);
   /*
    * Nothing is faked: every weight the stylesheets ask for is a face `src/styles/fonts.css`
    * actually loads. This is what made the old fractional weights collapse into one another, and it
@@ -21,6 +21,20 @@ body {
   min-width: 20rem;
   min-height: 100vh;
   margin: 0;
+}
+
+/*
+ * Rule 4 of the typography standard: `balance` is for the few lines of a heading, `pretty` for
+ * running text, and never the other way round.
+ */
+h1,
+h2,
+h3 {
+  text-wrap: balance;
+}
+
+p {
+  text-wrap: pretty;
 }
 
 button,

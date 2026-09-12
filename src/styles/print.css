@@ -61,7 +61,7 @@
   min-height: var(--print-date-space);
   margin: 0;
   font-size: var(--print-date-size);
-  font-weight: var(--font-weight-title);
+  font-weight: var(--weight-display);
   letter-spacing: -0.045em;
   line-height: 1;
 }
@@ -71,7 +71,7 @@
   margin: 0;
   font-family: var(--font-mono);
   font-size: var(--print-panel-number-size);
-  font-weight: var(--font-weight-strong);
+  font-weight: var(--weight-strong);
   letter-spacing: 0.08em;
   line-height: 1;
   text-transform: uppercase;
@@ -108,8 +108,8 @@
   margin: 0;
   overflow-wrap: anywhere;
   font-size: var(--print-list-title-size);
-  font-weight: var(--font-weight-title);
-  letter-spacing: var(--tracking-tight);
+  font-weight: var(--weight-display);
+  letter-spacing: var(--tracking-display);
   line-height: 1.12;
 }
 
@@ -387,7 +387,7 @@
 
   .print-blocker h1 {
     margin: 0 0 5mm;
-    font: var(--font-weight-title) 24pt/1 var(--font-print);
+    font: var(--weight-display) 24pt/1 var(--font-print);
   }
 
   .print-blocker p {
