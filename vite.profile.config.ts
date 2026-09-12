@@ -1,6 +1,6 @@
-import { fileURLToPath } from 'node:url'
-import react from '@vitejs/plugin-react'
-import { defineConfig } from 'vite'
+import { fileURLToPath } from "node:url";
+import react from "@vitejs/plugin-react";
+import { defineConfig } from "vite";
 
 /**
  * Build configuration for the performance harness (issue #5).
@@ -11,17 +11,17 @@ import { defineConfig } from 'vite'
  * an otherwise production build.
  */
 export default defineConfig({
-  root: fileURLToPath(new URL('./profile', import.meta.url)),
-  base: './',
+  root: fileURLToPath(new URL("./profile", import.meta.url)),
+  base: "./",
   plugins: [react()],
   resolve: {
     alias: {
-      'react-dom/client': 'react-dom/profiling',
+      "react-dom/client": "react-dom/profiling",
     },
   },
   build: {
-    outDir: fileURLToPath(new URL('./.profile-dist', import.meta.url)),
+    outDir: fileURLToPath(new URL("./.profile-dist", import.meta.url)),
     emptyOutDir: true,
     sourcemap: false,
   },
-})
+});

@@ -1,23 +1,23 @@
-import { Fragment, memo } from 'react'
+import { Fragment, memo } from "react";
 import {
   MOON_BAND_HEIGHT,
   MOON_STROKE_WIDTH,
-  toMoonSegments,
   type MoonWordSegment,
-} from '../domain/moon'
+  toMoonSegments,
+} from "../domain/moon";
 
 /**
  * Height of the complete Moon drawing band relative to the surrounding font size. The geometry is
  * inset within the band, so a 0.9-em viewport gives the visible strokes a Latin-like cap height.
  */
-const BAND_HEIGHT_EM = 0.9
+const BAND_HEIGHT_EM = 0.9;
 
 /**
  * Zero-width space. An `<svg>` is an atomic inline box, so no `overflow-wrap` or `word-break` value
  * can split one; between two of them, this is what gives the browser somewhere to wrap. It adds no
  * width, so a run that fits is laid out exactly as if it were one element.
  */
-const BREAK_OPPORTUNITY = '\u200b'
+const BREAK_OPPORTUNITY = "\u200b";
 
 /**
  * One `<svg>` per word — bounded by `MOON_MAX_RUN_GLYPHS` — rather than per character or per whole
@@ -27,12 +27,12 @@ const BREAK_OPPORTUNITY = '\u200b'
  * at the zero-width opportunities between its chunks.
  */
 const MoonWord = ({ segment }: { segment: MoonWordSegment }) => {
-  const width = (segment.advance / MOON_BAND_HEIGHT) * BAND_HEIGHT_EM
+  const width = (segment.advance / MOON_BAND_HEIGHT) * BAND_HEIGHT_EM;
   // Each glyph is drawn at its own origin, so the word is composed by advancing along the baseline.
-  const offsets = segment.glyphs.reduce<number[]>(
-    (positions, glyph) => [...positions, positions[positions.length - 1] + glyph.advance],
-    [0],
-  )
+  const offsets: number[] = [0];
+  for (const glyph of segment.glyphs) {
+    offsets.push(offsets[offsets.length - 1] + glyph.advance);
+  }
 
   return (
     <svg
@@ -44,13 +44,16 @@ const MoonWord = ({ segment }: { segment: MoonWordSegment }) => {
       preserveAspectRatio="xMidYMid meet"
     >
       {segment.glyphs.map((glyph, index) => (
-        <g key={`${glyph.letter}-${index}`} transform={`translate(${offsets[index]} 0)`}>
+        <g
+          key={`${glyph.letter}-${index}`}
+          transform={`translate(${offsets[index]} 0)`}
+        >
           {glyph.strokes.map((stroke, strokeIndex) => (
             <path
               key={strokeIndex}
               d={stroke.d}
-              fill={stroke.filled ? 'currentColor' : 'none'}
-              stroke={stroke.filled ? 'none' : 'currentColor'}
+              fill={stroke.filled ? "currentColor" : "none"}
+              stroke={stroke.filled ? "none" : "currentColor"}
               strokeWidth={stroke.filled ? undefined : MOON_STROKE_WIDTH}
               strokeLinecap="round"
               strokeLinejoin="round"
@@ -59,8 +62,8 @@ const MoonWord = ({ segment }: { segment: MoonWordSegment }) => {
         </g>
       ))}
     </svg>
-  )
-}
+  );
+};
 
 /**
  * Render `text` as Moon type. The Latin source is kept in a visually hidden span so the accessible
@@ -72,7 +75,7 @@ export const MoonText = memo(({ text }: { text: string }) => (
     <span className="sr-only">{text}</span>
     <span aria-hidden="true" className="moon-text__glyphs">
       {toMoonSegments(text).map((segment, index) =>
-        segment.kind === 'moon' ? (
+        segment.kind === "moon" ? (
           <Fragment key={index}>
             {segment.continuesRun && BREAK_OPPORTUNITY}
             <MoonWord segment={segment} />
@@ -83,5 +86,5 @@ export const MoonText = memo(({ text }: { text: string }) => (
       )}
     </span>
   </span>
-))
-MoonText.displayName = 'MoonText'
+));
+MoonText.displayName = "MoonText";

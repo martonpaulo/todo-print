@@ -1,6 +1,6 @@
-import type { Plugin } from 'vite'
-import react from '@vitejs/plugin-react'
-import { configDefaults, defineConfig } from 'vitest/config'
+import react from "@vitejs/plugin-react";
+import type { Plugin } from "vite";
+import { configDefaults, defineConfig } from "vitest/config";
 
 /*
  * `src/styles/fonts.css` loads the three shipped faces with `font-display: swap`, which keeps text
@@ -13,37 +13,37 @@ import { configDefaults, defineConfig } from 'vitest/config'
  */
 function preloadFonts(): Plugin {
   return {
-    name: 'preload-fonts',
-    apply: 'build',
+    name: "preload-fonts",
+    apply: "build",
     transformIndexHtml: {
-      order: 'post',
+      order: "post",
       handler(_html, context) {
         return Object.keys(context.bundle ?? {})
-          .filter((fileName) => fileName.endsWith('.woff2'))
+          .filter((fileName) => fileName.endsWith(".woff2"))
           .sort()
           .map((fileName) => ({
-            tag: 'link',
+            tag: "link",
             attrs: {
-              rel: 'preload',
-              as: 'font',
-              type: 'font/woff2',
+              rel: "preload",
+              as: "font",
+              type: "font/woff2",
               // `base` is '/', so the emitted asset path is already the served path.
               href: `/${fileName}`,
-              crossorigin: '',
+              crossorigin: "",
             },
-            injectTo: 'head-prepend' as const,
-          }))
+            injectTo: "head-prepend" as const,
+          }));
       },
     },
-  }
+  };
 }
 
 export default defineConfig({
-  base: '/',
+  base: "/",
   plugins: [react(), preloadFonts()],
   test: {
-    environment: 'jsdom',
-    setupFiles: './src/test/setup.ts',
+    environment: "jsdom",
+    setupFiles: "./src/test/setup.ts",
     // Vitest's 5 s default is below what the @testing-library/react cases in src/App.test.tsx need:
     // they render the whole application, and on a machine running other work in parallel a single
     // one exceeds 5 s while that file finishes in under 14 s when it runs alone. 30 s absorbs that
@@ -52,6 +52,6 @@ export default defineConfig({
     testTimeout: 30_000,
     hookTimeout: 30_000,
     // The printed-page geometry check needs a real browser; it runs under vitest.print.config.ts.
-    exclude: [...configDefaults.exclude, 'tests/print-geometry/**'],
+    exclude: [...configDefaults.exclude, "tests/print-geometry/**"],
   },
-})
+});

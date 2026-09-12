@@ -1,4 +1,4 @@
-const ISO_DATE_PATTERN = /^\d{4}-\d{2}-\d{2}$/
+const ISO_DATE_PATTERN = /^\d{4}-\d{2}-\d{2}$/;
 
 /**
  * The single owner of the document date invariant: exactly `YYYY-MM-DD`, and a day that exists in
@@ -10,7 +10,10 @@ const ISO_DATE_PATTERN = /^\d{4}-\d{2}-\d{2}$/
  * agree for every year from 0100 onwards; only the round-trip is correct below it.
  */
 export const isValidIsoDate = (value: string): boolean => {
-  if (!ISO_DATE_PATTERN.test(value)) return false
-  const parsed = new Date(`${value}T00:00:00Z`)
-  return !Number.isNaN(parsed.getTime()) && parsed.toISOString().slice(0, 10) === value
-}
+  if (!ISO_DATE_PATTERN.test(value)) return false;
+  const parsed = new Date(`${value}T00:00:00Z`);
+  return (
+    !Number.isNaN(parsed.getTime()) &&
+    parsed.toISOString().slice(0, 10) === value
+  );
+};

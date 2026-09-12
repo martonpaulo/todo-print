@@ -1,34 +1,34 @@
-import type { SVGProps } from 'react'
+import type { SVGProps } from "react";
 
 type IconName =
-  | 'arrow-down'
-  | 'arrow-up'
-  | 'calendar'
-  | 'check'
-  | 'code'
-  | 'download'
-  | 'file'
-  | 'list'
-  | 'moon'
-  | 'panel'
-  | 'plus'
-  | 'printer'
-  | 'rotate'
-  | 'trash'
-  | 'upload'
-  | 'warning'
-  | 'zoom-in'
-  | 'zoom-out'
+  | "arrow-down"
+  | "arrow-up"
+  | "calendar"
+  | "check"
+  | "code"
+  | "download"
+  | "file"
+  | "list"
+  | "moon"
+  | "panel"
+  | "plus"
+  | "printer"
+  | "rotate"
+  | "trash"
+  | "upload"
+  | "warning"
+  | "zoom-in"
+  | "zoom-out";
 
 interface IconProps extends SVGProps<SVGSVGElement> {
-  name: IconName
-  size?: number
+  name: IconName;
+  size?: number;
 }
 
 export const Icon = ({ name, size = 18, ...props }: IconProps) => {
   const paths: Record<IconName, React.ReactNode> = {
-    'arrow-down': <path d="m6 9 6 6 6-6" />,
-    'arrow-up': <path d="m6 15 6-6 6 6" />,
+    "arrow-down": <path d="m6 9 6 6 6-6" />,
+    "arrow-up": <path d="m6 15 6-6 6 6" />,
     calendar: (
       <>
         <path d="M7 3v3M17 3v3M4 9h16" />
@@ -71,19 +71,19 @@ export const Icon = ({ name, size = 18, ...props }: IconProps) => {
         <path d="M12 9v5M12 17h.01" />
       </>
     ),
-    'zoom-in': (
+    "zoom-in": (
       <>
         <circle cx="11" cy="11" r="7" />
         <path d="m20 20-4.2-4.2M11 8v6M8 11h6" />
       </>
     ),
-    'zoom-out': (
+    "zoom-out": (
       <>
         <circle cx="11" cy="11" r="7" />
         <path d="m20 20-4.2-4.2M8 11h6" />
       </>
     ),
-  }
+  };
 
   return (
     <svg
@@ -100,5 +100,5 @@ export const Icon = ({ name, size = 18, ...props }: IconProps) => {
     >
       {paths[name]}
     </svg>
-  )
-}
+  );
+};

@@ -15,13 +15,13 @@ module.exports = {
    * acceptable while `npm run check` passes against it: revalidate or drop this line on every
    * Puppeteer upgrade instead of letting the override drift silently.
    */
-  chrome: { version: '152.0.7977.75' },
+  chrome: { version: "152.0.7977.75" },
   /**
    * The project launches the full Chrome binary — headless for automation, headful for inspection —
    * and its supported browser family is Chromium only. Neither of these is a prerequisite, and
    * downloading them would put builds nothing here launches into the shared cache. Firefox already
    * defaults to skipped; stating it keeps the decision true if that default ever changes.
    */
-  'chrome-headless-shell': { skipDownload: true },
+  "chrome-headless-shell": { skipDownload: true },
   firefox: { skipDownload: true },
-}
+};

@@ -1,0 +1,112 @@
+{
+  "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
+  "vcs": { "enabled": true, "clientKind": "git", "useIgnoreFile": true },
+  "files": {
+    "ignoreUnknown": false,
+    "includes": [
+      "**",
+      "!**/.ao",
+      "!**/.claude",
+      "!**/dist",
+      "!**/.profile-dist",
+      "!public/CNAME"
+    ]
+  },
+  "formatter": {
+    "enabled": true,
+    "indentStyle": "space",
+    "indentWidth": 2
+  },
+  "assist": { "actions": { "source": { "organizeImports": "on" } } },
+  "linter": {
+    "enabled": true,
+    "rules": {
+      "preset": "recommended",
+      "a11y": {
+        // Every occurrence here is `role="group"` on a `div` holding a pair of
+        // buttons -- a confirm/cancel question, a zoom control, an editor-mode
+        // switch. `role="group"` is the right ARIA for that; the rule's
+        // suggested `<fieldset>` is for form controls and wants a `<legend>`,
+        // so taking the advice would make the markup less correct, not more.
+        "useSemanticElements": "off"
+      },
+      "correctness": {
+        // Was `react/rules-of-hooks: deny` under oxlint: the one rule the old
+        // config raised above its default severity.
+        "useHookAtTopLevel": "error",
+        // Was `react/exhaustive-deps`.
+        "useExhaustiveDependencies": "error",
+        // Was `react/static-components`.
+        "noNestedComponentDefinitions": "error",
+        // Was the assignment half of `react/immutability`.
+        "noReactPropAssignments": "error"
+      },
+      "nursery": {
+        // Stands in for the React Compiler family oxlint's `react` plugin ran
+        // by default -- purity, refs, globals, set-state-in-render,
+        // preserve-manual-memoization, use-memo. Nursery, so it is advisory
+        // here rather than a gate failure.
+        "useReactCompiler": "info"
+      },
+      "style": {
+        // Was `react/only-export-components` with `allowConstantExport`, which
+        // Biome allows unconditionally.
+        "useComponentExportOnlyModules": "warn",
+        "noParameterAssign": "error",
+        "useAsConstAssertion": "error",
+        "useDefaultParameterLast": "error",
+        "useEnumInitializers": "error",
+        "useSelfClosingElements": "error",
+        "useSingleVarDeclarator": "error",
+        "noUnusedTemplateLiteral": "error",
+        "useNumberNamespace": "error",
+        "noInferrableTypes": "error",
+        "noUselessElse": "error"
+      }
+    }
+  },
+  "javascript": { "formatter": { "quoteStyle": "double" } },
+  "overrides": [
+    {
+      // `print.css` and the `@media print` half of `global.css` exist to win
+      // against the screen cascade inside the browser's own print stylesheet,
+      // where an exact-size A4 layout has no second chance to correct itself.
+      // `!important` is the mechanism that does it; without it the printed page
+      // stops matching the preview, which is the whole product.
+      "includes": ["src/styles/print.css", "src/styles/global.css"],
+      "linter": { "rules": { "complexity": { "noImportantStyles": "off" } } }
+    },
+    {
+      // `MoonText` draws a string: glyphs and strokes come out of a pure
+      // function of the text, in reading order, and are never reordered,
+      // inserted into, or removed from. There is no identity to key on other
+      // than position, and `PrintPreview` pages are positional by definition.
+      "includes": [
+        "src/components/MoonText.tsx",
+        "src/components/PrintPreview.tsx"
+      ],
+      "linter": { "rules": { "suspicious": { "noArrayIndexKey": "off" } } }
+    },
+    {
+      // Tests assert on fixtures they just built, so `!` documents an invariant
+      // the test itself established. A failed assertion there is a test
+      // failure, which is the outcome the rule protects against in source.
+      // A test harness component is also not a Fast Refresh boundary.
+      "includes": ["**/*.test.ts", "**/*.test.tsx", "tests/**"],
+      "linter": {
+        "rules": {
+          "style": {
+            "noNonNullAssertion": "off",
+            "useComponentExportOnlyModules": "off"
+          }
+        }
+      }
+    },
+    {
+      // `favicon.svg` is a standalone image asset, not markup inside a
+      // document, so the markup a11y rules do not apply to it.
+      "includes": ["public/favicon.svg"],
+      "linter": { "rules": { "a11y": { "noSvgWithoutTitle": "off" } } }
+    }
+  ]
+}

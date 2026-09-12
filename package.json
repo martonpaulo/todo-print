@@ -12,7 +12,8 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
-    "lint": "oxlint",
+    "lint": "biome check .",
+    "format": "biome check --write .",
     "test": "vitest run",
     "test:watch": "vitest",
     "test:print": "vitest run --config vitest.print.config.ts",
@@ -30,6 +31,7 @@
     "react-dom": "^19.2.8"
   },
   "devDependencies": {
+    "@biomejs/biome": "2.5.12",
     "@testing-library/jest-dom": "^7.0.1",
     "@testing-library/react": "^16.3.2",
     "@testing-library/user-event": "^14.6.6",
@@ -38,7 +40,6 @@
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^6.0.4",
     "jsdom": "^30.0.1",
-    "oxlint": "^1.75.0",
     "puppeteer": "^25.9.0",
     "typescript": "~6.0.2",
     "vite": "^8.2.0",

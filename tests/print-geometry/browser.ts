@@ -1,6 +1,6 @@
-import { execFileSync } from 'node:child_process'
-import { existsSync } from 'node:fs'
-import puppeteer, { type Browser, type Page } from 'puppeteer'
+import { execFileSync } from "node:child_process";
+import { existsSync } from "node:fs";
+import puppeteer, { type Browser, type Page } from "puppeteer";
 
 /**
  * The one Chromium launch every browser check in this directory shares. Chromium is the only
@@ -19,11 +19,15 @@ export const launchBrowser = async (): Promise<Browser> => {
   // argument here precisely because that overload never validates the path, so it reports where the
   // configured build belongs whether or not it is installed.
   if (!existsSync(await puppeteer.executablePath())) {
-    execFileSync('npx', ['puppeteer', 'browsers', 'install', 'chrome'], { stdio: 'inherit' })
+    execFileSync("npx", ["puppeteer", "browsers", "install", "chrome"], {
+      stdio: "inherit",
+    });
   }
 
-  return await puppeteer.launch({ args: ['--no-sandbox', '--disable-dev-shm-usage'] })
-}
+  return await puppeteer.launch({
+    args: ["--no-sandbox", "--disable-dev-shm-usage"],
+  });
+};
 
 /**
  * Block until Chromium has actually applied the print stylesheet.
@@ -52,12 +56,13 @@ export const waitForPrintMedia = async (page: Page): Promise<void> => {
   await page
     .waitForFunction(
       () => {
-        const screenOnly = window.document.querySelector('.screen-only')
+        const screenOnly = window.document.querySelector(".screen-only");
         return (
-          screenOnly instanceof HTMLElement && window.getComputedStyle(screenOnly).display === 'none'
-        )
+          screenOnly instanceof HTMLElement &&
+          window.getComputedStyle(screenOnly).display === "none"
+        );
       },
       { timeout: 10_000 },
     )
-    .catch(() => {})
-}
+    .catch(() => {});
+};

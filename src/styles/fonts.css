@@ -12,6 +12,6 @@
  * The printed sheet is deliberately not part of this: it stays on `--font-print`, a system stack
  * chosen for print fidelity, and no webfont reaches paper.
  */
-@import '@fontsource/figtree/latin-400.css';
-@import '@fontsource/figtree/latin-600.css';
-@import '@fontsource/gabarito/latin-700.css';
+@import "@fontsource/figtree/latin-400.css";
+@import "@fontsource/figtree/latin-600.css";
+@import "@fontsource/gabarito/latin-700.css";

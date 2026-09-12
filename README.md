@@ -55,7 +55,8 @@ A **Chromium-family browser** is the supported target: print output is verified 
 | `npm run dev` | Starts the Vite dev server. |
 | `npm run build` | Type-checks with `tsc -b`, then builds production output into `dist/`. |
 | `npm run preview` | Serves the built `dist/` locally. |
-| `npm run lint` | Runs oxlint over the repository. |
+| `npm run lint` | Runs Biome over the repository: lint rules, formatting and import order. |
+| `npm run format` | Applies what `npm run lint` reports and can fix safely. |
 | `npm test` | Runs Vitest over Markdown conversion, persisted-data validation and atomic pagination. |
 | `npm run test:watch` | Runs the same suite in watch mode. |
 | `npm run test:print` | Measures the printed-page geometry in headless Chrome, downloading Chrome on first run. |

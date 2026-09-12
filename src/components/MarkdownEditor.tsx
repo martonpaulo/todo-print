@@ -1,53 +1,61 @@
-import { useEffect, useRef } from 'react'
-import { COPY } from '../copy'
+import { useEffect, useRef } from "react";
+import { COPY } from "../copy";
 import {
   continueMarkdownAtSelection,
   normalizeMarkdownSource,
-} from '../domain/markdown'
-import type { MarkdownError } from '../domain/types'
-import { Icon } from './Icon'
+} from "../domain/markdown";
+import type { MarkdownError } from "../domain/types";
+import { Icon } from "./Icon";
 
 interface MarkdownEditorProps {
-  value: string
-  errors: MarkdownError[]
-  onChange: (value: string) => void
+  value: string;
+  errors: MarkdownError[];
+  onChange: (value: string) => void;
 }
 
-export const MarkdownEditor = ({ value, errors, onChange }: MarkdownEditorProps) => {
-  const textareaRef = useRef<HTMLTextAreaElement>(null)
+export const MarkdownEditor = ({
+  value,
+  errors,
+  onChange,
+}: MarkdownEditorProps) => {
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
 
+  // The effect re-measures the textarea whenever the text changes; it reads the height off the DOM
+  // rather than off `value`, so dropping the dependency would resize once and never again.
+  // biome-ignore lint/correctness/useExhaustiveDependencies: `value` is the trigger, not a read.
   useEffect(() => {
-    const textarea = textareaRef.current
-    if (!textarea) return
-    textarea.style.height = 'auto'
-    textarea.style.height = `${textarea.scrollHeight}px`
-  }, [value])
+    const textarea = textareaRef.current;
+    if (!textarea) return;
+    textarea.style.height = "auto";
+    textarea.style.height = `${textarea.scrollHeight}px`;
+    // biome-ignore lint/nursery/useReactCompiler: `value` is the trigger, not a read.
+  }, [value]);
 
   const handleBlur = (event: React.FocusEvent<HTMLTextAreaElement>) => {
-    const source = event.target.value
-    const normalized = normalizeMarkdownSource(source)
-    if (normalized !== source) onChange(normalized)
-  }
+    const source = event.target.value;
+    const normalized = normalizeMarkdownSource(source);
+    if (normalized !== source) onChange(normalized);
+  };
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
-    if (event.key !== 'Enter' || event.shiftKey) return
+    if (event.key !== "Enter" || event.shiftKey) return;
 
-    const textarea = event.currentTarget
+    const textarea = event.currentTarget;
     const edit = continueMarkdownAtSelection(
       textarea.value,
       textarea.selectionStart,
       textarea.selectionEnd,
-    )
-    if (!edit) return
+    );
+    if (!edit) return;
 
-    event.preventDefault()
-    onChange(edit.source)
+    event.preventDefault();
+    onChange(edit.source);
     requestAnimationFrame(() => {
-      if (!textareaRef.current) return
-      textareaRef.current.selectionStart = edit.selectionStart
-      textareaRef.current.selectionEnd = edit.selectionEnd
-    })
-  }
+      if (!textareaRef.current) return;
+      textareaRef.current.selectionStart = edit.selectionStart;
+      textareaRef.current.selectionEnd = edit.selectionEnd;
+    });
+  };
 
   return (
     <div className="markdown-editor">
@@ -61,7 +69,7 @@ export const MarkdownEditor = ({ value, errors, onChange }: MarkdownEditorProps)
         value={value}
         aria-invalid={errors.length > 0}
         aria-describedby={
-          errors.length > 0 ? 'markdown-help markdown-errors' : 'markdown-help'
+          errors.length > 0 ? "markdown-help markdown-errors" : "markdown-help"
         }
         onChange={(event) => onChange(event.target.value)}
         onBlur={handleBlur}
@@ -91,5 +99,5 @@ export const MarkdownEditor = ({ value, errors, onChange }: MarkdownEditorProps)
         )}
       </div>
     </div>
-  )
-}
+  );
+};

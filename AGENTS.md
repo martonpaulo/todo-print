@@ -82,7 +82,7 @@ Treat these values as stable project decisions. Change an established identifier
 
 Rules for any executor working from a clone of this repository, including cloud executors that read only committed files.
 
-- Run tests with `npm test`; run lint with `npm run lint`. A change is not done while either fails on the exact current head.
+- Run tests with `npm test`; run lint and the formatter check with `npm run lint` (Biome). A change is not done while either fails on the exact current head.
 - Branch as `<type>/<agent>/issue-<n>/<short-slug>`; commit with Conventional Commits, with the subject ending in `(#<n>)`.
 - Never push to `main` and never merge: open a pull request and stop. Merge belongs to the owner, or to GitHub auto-merge under the predicates recorded in `.ao/worker-rules.md`.
 - Start the pull request body with one `Closes #<n>` line per resolved issue, then document the problem, implementation, tests with results, and residual risk.

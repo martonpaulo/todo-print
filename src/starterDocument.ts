@@ -1,6 +1,10 @@
-import { COPY } from './copy'
-import { createDocument, createList, createPanelBreak } from './domain/document'
-import type { TodoDocument } from './domain/types'
+import { COPY } from "./copy";
+import {
+  createDocument,
+  createList,
+  createPanelBreak,
+} from "./domain/document";
+import type { TodoDocument } from "./domain/types";
 
 /**
  * The composition boundary between the two owners the starter document needs: `src/domain/document`
@@ -15,4 +19,4 @@ export const createStarterDocument = (): TodoDocument =>
     createList(COPY.starter.work, COPY.starter.workItems),
     createPanelBreak(),
     createList(COPY.starter.personal, COPY.starter.personalItems),
-  ])
+  ]);

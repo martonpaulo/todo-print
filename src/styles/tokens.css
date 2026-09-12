@@ -49,7 +49,8 @@
    */
   --font-display: "Gabarito", "Avenir Next", "Segoe UI", system-ui, sans-serif;
   --font-body: "Figtree", "Avenir Next", "Segoe UI", system-ui, sans-serif;
-  --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+  --font-mono:
+    ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
   /*
    * Paper is a different medium and does not follow the standard: the sheet is set in a system
    * grotesque chosen for print fidelity, and no webfont reaches it. Do not point this at Figtree.

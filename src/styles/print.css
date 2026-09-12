@@ -36,7 +36,7 @@
   right: 0;
   width: var(--print-stroke-width);
   height: 100%;
-  content: '';
+  content: "";
   background: var(--print-ink);
 }
 
@@ -387,12 +387,12 @@
 
   .print-blocker h1 {
     margin: 0 0 5mm;
-    font: var(--weight-display) 24pt/1 var(--font-print);
+    font: var(--weight-display) 24pt / 1 var(--font-print);
   }
 
   .print-blocker p {
     max-width: 150mm;
     margin: 0;
-    font: 12pt/1.5 var(--font-print);
+    font: 12pt / 1.5 var(--font-print);
   }
 }

@@ -1,44 +1,54 @@
-import { useCallback, useRef, useState, useEffect, type ChangeEvent, type FocusEvent } from 'react'
-import './styles/app.css'
-import { COPY } from './copy'
-import { MarkdownEditor } from './components/MarkdownEditor'
-import { Icon } from './components/Icon'
-import { PrintPreview, type LayoutStatus } from './components/PrintPreview'
-import { StorageStatus } from './components/StorageStatus'
-import { VisualEditor } from './components/VisualEditor'
-import { listCardId } from './components/elementIds'
 import {
+  type ChangeEvent,
+  type FocusEvent,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
+import "./styles/app.css";
+import { listCardId } from "./components/elementIds";
+import { Icon } from "./components/Icon";
+import { MarkdownEditor } from "./components/MarkdownEditor";
+import { type LayoutStatus, PrintPreview } from "./components/PrintPreview";
+import { StorageStatus } from "./components/StorageStatus";
+import { VisualEditor } from "./components/VisualEditor";
+import { COPY } from "./copy";
+import {
+  downloadTextFile,
   MARKDOWN_FILE_ACCEPT,
   MARKDOWN_MIME_TYPE,
-  downloadTextFile,
   markdownFileContent,
   markdownFileName,
   readTextFile,
-} from './domain/file'
-import { parseMarkdown, serializeMarkdown } from './domain/markdown'
-import type { MarkdownError, TodoDocument } from './domain/types'
-import { usePersistentDocument, type DocumentEdit } from './hooks/usePersistentDocument'
+} from "./domain/file";
+import { parseMarkdown, serializeMarkdown } from "./domain/markdown";
+import type { MarkdownError, TodoDocument } from "./domain/types";
+import {
+  type DocumentEdit,
+  usePersistentDocument,
+} from "./hooks/usePersistentDocument";
 
-type EditorMode = 'visual' | 'markdown'
+type EditorMode = "visual" | "markdown";
 
 // The print action names only the format; the dialog settings that preserve the
 // layout stay in an adjacent hint the button points at, so the accessible name
 // remains short while the guidance is still announced with the control.
-const PRINT_HINT_ID = 'print-dialog-hint'
+const PRINT_HINT_ID = "print-dialog-hint";
 
 // Below the stacking breakpoint the editor and the preview are several viewport
 // heights apart, so both regions are addressable targets the navigation moves
 // focus between.
-const EDITOR_REGION_ID = 'editor-region'
-const PREVIEW_REGION_ID = 'preview-region'
+const EDITOR_REGION_ID = "editor-region";
+const PREVIEW_REGION_ID = "preview-region";
 
 // The toggle's own name is only the alphabet's name; what switching it does to the document, and
 // which characters keep their Latin form, is carried in an adjacent description.
-const MOON_HINT_ID = 'moon-typography-hint'
+const MOON_HINT_ID = "moon-typography-hint";
 
 // The rotation's name says what it does to the paper, not why anyone would want it; the printer
 // behaviour it works around is carried in an adjacent description.
-const ROTATE_PRINT_HINT_ID = 'rotate-print-hint'
+const ROTATE_PRINT_HINT_ID = "rotate-print-hint";
 
 /**
  * The portrait sheet, declared apart from `src/styles/print.css`. `@page` cannot be scoped by a
@@ -47,12 +57,12 @@ const ROTATE_PRINT_HINT_ID = 'rotate-print-hint'
  * stylesheet's landscape `@page`, so it wins by cascade order while it is present, and it is removed
  * with the setting so the two are never both live.
  */
-const ROTATED_PAGE_STYLE_ID = 'rotated-page-size'
-const ROTATED_PAGE_RULE = '@page { size: A4 portrait; margin: 0; }'
+const ROTATED_PAGE_STYLE_ID = "rotated-page-size";
+const ROTATED_PAGE_RULE = "@page { size: A4 portrait; margin: 0; }";
 
 // Importing replaces the whole document, so what the picker is about to do is described with the
 // control rather than discovered afterwards.
-const IMPORT_HINT_ID = 'import-markdown-hint'
+const IMPORT_HINT_ID = "import-markdown-hint";
 
 /**
  * Why an import left the document unchanged. `null` is the ordinary state: nothing was imported,
@@ -65,31 +75,34 @@ const IMPORT_HINT_ID = 'import-markdown-hint'
  *   `markdownErrors` instead would let the message return for a later, unrelated error the import
  *   had nothing to do with.
  */
-type ImportFailure = { kind: 'unreadable' } | { kind: 'invalid'; source: string } | null
+type ImportFailure =
+  | { kind: "unreadable" }
+  | { kind: "invalid"; source: string }
+  | null;
 
 // jsdom, and any environment without a layout engine, leaves scrollIntoView
 // undefined; focus() already scrolls, so the explicit call only refines where
 // the target lands.
 const revealElement = (element: HTMLElement | null) => {
-  if (!element) return
-  element.focus()
-  element.scrollIntoView?.({ block: 'start' })
-}
+  if (!element) return;
+  element.focus();
+  element.scrollIntoView?.({ block: "start" });
+};
 
 const INITIAL_LAYOUT_STATUS: LayoutStatus = {
   ready: false,
   overflowListIds: [],
   panelCount: 1,
   pageCount: 1,
-}
+};
 
 // The removal status names what was removed; the history owner carries only the
 // kind and the subject, so the sentence is assembled here from centralized copy.
 const removalMessage = (edit: DocumentEdit) => {
-  if (edit.kind === 'task-removed') return COPY.removedTask(edit.subject)
-  if (edit.kind === 'list-removed') return COPY.removedList(edit.subject)
-  return COPY.removedPanelBreak
-}
+  if (edit.kind === "task-removed") return COPY.removedTask(edit.subject);
+  if (edit.kind === "list-removed") return COPY.removedList(edit.subject);
+  return COPY.removedPanelBreak;
+};
 
 const App = () => {
   const {
@@ -101,66 +114,70 @@ const App = () => {
     replaceStoredDocument,
     undo,
     redo,
-  } = usePersistentDocument()
-  const [mode, setMode] = useState<EditorMode>('visual')
-  const [markdown, setMarkdown] = useState(() => serializeMarkdown(document))
-  const [markdownErrors, setMarkdownErrors] = useState<MarkdownError[]>([])
-  const [layoutStatus, setLayoutStatus] = useState(INITIAL_LAYOUT_STATUS)
-  const [importFailure, setImportFailure] = useState<ImportFailure>(null)
+  } = usePersistentDocument();
+  const [mode, setMode] = useState<EditorMode>("visual");
+  const [markdown, setMarkdown] = useState(() => serializeMarkdown(document));
+  const [markdownErrors, setMarkdownErrors] = useState<MarkdownError[]>([]);
+  const [layoutStatus, setLayoutStatus] = useState(INITIAL_LAYOUT_STATUS);
+  const [importFailure, setImportFailure] = useState<ImportFailure>(null);
   // Counts import selections so a read that resolves after a newer one can recognize itself as
   // stale. A ref, not state: nothing renders from it, and it must be current the moment an await
   // returns rather than at the next render.
-  const importSelection = useRef(0)
+  const importSelection = useRef(0);
   // Returning from the preview lands on the control the user last edited rather
   // than on the top of a document that can be several screens tall.
-  const lastEditedElement = useRef<HTMLElement | null>(null)
+  const lastEditedElement = useRef<HTMLElement | null>(null);
 
   // History traversal happens entirely inside the hook, so the restored document
   // arrives as the next render rather than as a return value. This flag marks the
   // one render that must re-serialize the Markdown view; leaving it out of the
   // effect's condition would overwrite the source the user is currently typing.
-  const replayedDocument = useRef(false)
+  const replayedDocument = useRef(false);
 
   useEffect(() => {
-    if (!replayedDocument.current) return
-    replayedDocument.current = false
-    setMarkdown(serializeMarkdown(document))
-    setMarkdownErrors([])
-  }, [document])
+    if (!replayedDocument.current) return;
+    replayedDocument.current = false;
+    setMarkdown(serializeMarkdown(document));
+    setMarkdownErrors([]);
+  }, [document]);
 
-  const applyDocument = useCallback((nextDocument: TodoDocument, edit?: DocumentEdit) => {
-    setDocument(nextDocument, edit ?? null)
-    setMarkdown(serializeMarkdown(nextDocument))
-    setMarkdownErrors([])
-  }, [setDocument])
+  const applyDocument = useCallback(
+    (nextDocument: TodoDocument, edit?: DocumentEdit) => {
+      setDocument(nextDocument, edit ?? null);
+      setMarkdown(serializeMarkdown(nextDocument));
+      setMarkdownErrors([]);
+    },
+    [setDocument],
+  );
 
   const undoLastEdit = useCallback(() => {
-    if (undo()) replayedDocument.current = true
-  }, [undo])
+    if (undo()) replayedDocument.current = true;
+  }, [undo]);
 
   const redoLastEdit = useCallback(() => {
-    if (redo()) replayedDocument.current = true
-  }, [redo])
+    if (redo()) replayedDocument.current = true;
+  }, [redo]);
 
   // The status disappears with the removal it describes, so focus would fall to
   // the document body. The editor region is the nearest stable landing point the
   // restored content is inside of.
   const undoRemoval = () => {
-    undoLastEdit()
-    revealElement(window.document.getElementById(EDITOR_REGION_ID))
-  }
+    undoLastEdit();
+    revealElement(window.document.getElementById(EDITOR_REGION_ID));
+  };
 
   const applyDocumentSettings = (nextDocument: TodoDocument) => {
-    setDocument(nextDocument)
-    if (markdownErrors.length === 0) setMarkdown(serializeMarkdown(nextDocument))
-  }
+    setDocument(nextDocument);
+    if (markdownErrors.length === 0)
+      setMarkdown(serializeMarkdown(nextDocument));
+  };
 
   const changeMarkdown = (source: string) => {
-    setMarkdown(source)
-    const result = parseMarkdown(source, document)
-    setMarkdownErrors(result.errors)
-    if (result.errors.length === 0) setDocument(result.document)
-  }
+    setMarkdown(source);
+    const result = parseMarkdown(source, document);
+    setMarkdownErrors(result.errors);
+    if (result.errors.length === 0) setDocument(result.document);
+  };
 
   // The file is the source the Markdown view shows, not a fresh serialization of the document.
   // While a draft has errors the document is deliberately the last valid one, so writing it would
@@ -168,8 +185,12 @@ const App = () => {
   // the user to take out of the app. `markdown` tracks the document whenever the source parses, so
   // exporting from the visual editor is unaffected.
   const exportMarkdown = () => {
-    downloadTextFile(markdownFileName(document), markdownFileContent(markdown), MARKDOWN_MIME_TYPE)
-  }
+    downloadTextFile(
+      markdownFileName(document),
+      markdownFileContent(markdown),
+      MARKDOWN_MIME_TYPE,
+    );
+  };
 
   // An import is an ordinary Markdown change: the same parse decides whether the document is
   // replaced, so a file can never put content into the document that typing could not. It is not
@@ -177,126 +198,137 @@ const App = () => {
   // control promises that undo restores what was here, and a neighbouring keystroke coalesced
   // into the same step would restore more than that.
   const importMarkdown = async (event: ChangeEvent<HTMLInputElement>) => {
-    const input = event.target
-    const file = input.files?.[0]
+    const input = event.target;
+    const file = input.files?.[0];
     // Choosing the same file twice must read it again, so the input never keeps a value.
-    input.value = ''
-    if (!file) return
+    input.value = "";
+    if (!file) return;
 
     // Reads are asynchronous and can finish in any order, so a slow first choice must not land on
     // top of a quick second one. Only the newest selection may apply its result; every earlier
     // read is abandoned where it would otherwise write.
-    const selection = (importSelection.current += 1)
-    const superseded = () => selection !== importSelection.current
+    importSelection.current += 1;
+    const selection = importSelection.current;
+    const superseded = () => selection !== importSelection.current;
 
-    let source: string
+    let source: string;
     try {
-      source = await readTextFile(file)
+      source = await readTextFile(file);
     } catch {
-      if (superseded()) return
-      setImportFailure({ kind: 'unreadable' })
-      return
+      if (superseded()) return;
+      setImportFailure({ kind: "unreadable" });
+      return;
     }
 
-    if (superseded()) return
+    if (superseded()) return;
 
-    setMarkdown(source)
-    const result = parseMarkdown(source, document)
-    setMarkdownErrors(result.errors)
+    setMarkdown(source);
+    const result = parseMarkdown(source, document);
+    setMarkdownErrors(result.errors);
 
     if (result.errors.length > 0) {
-      setImportFailure({ kind: 'invalid', source })
-      setMode('markdown')
-      return
+      setImportFailure({ kind: "invalid", source });
+      setMode("markdown");
+      return;
     }
 
-    setImportFailure(null)
-    replaceDocument(result.document)
-  }
+    setImportFailure(null);
+    replaceDocument(result.document);
+  };
 
   const changeMode = (nextMode: EditorMode) => {
-    if (nextMode === 'visual' && markdownErrors.length > 0) return
-    if (nextMode === 'markdown') setMarkdown(serializeMarkdown(document))
-    setMode(nextMode)
-  }
+    if (nextMode === "visual" && markdownErrors.length > 0) return;
+    if (nextMode === "markdown") setMarkdown(serializeMarkdown(document));
+    setMode(nextMode);
+  };
 
   const handleLayoutStatusChange = useCallback((status: LayoutStatus) => {
-    setLayoutStatus(status)
-  }, [])
+    setLayoutStatus(status);
+  }, []);
 
   const canPrint =
     layoutStatus.ready &&
     layoutStatus.overflowListIds.length === 0 &&
-    markdownErrors.length === 0
+    markdownErrors.length === 0;
   const printLabel = !layoutStatus.ready
     ? COPY.preparingPrint
     : canPrint
       ? COPY.print
-      : COPY.printBlocked
+      : COPY.printBlocked;
 
-  const firstOverflowListId = layoutStatus.overflowListIds[0]
+  const firstOverflowListId = layoutStatus.overflowListIds[0];
 
   // The card carries the list name and the local correction as its description,
   // so moving focus there announces both without a second live region.
   const goToOverflowList = () => {
-    if (!firstOverflowListId) return
-    revealElement(window.document.getElementById(listCardId(firstOverflowListId)))
-  }
+    if (!firstOverflowListId) return;
+    revealElement(
+      window.document.getElementById(listCardId(firstOverflowListId)),
+    );
+  };
 
   const rememberEditedElement = (event: FocusEvent<HTMLDivElement>) => {
-    lastEditedElement.current = event.target
-  }
+    lastEditedElement.current = event.target;
+  };
 
-  const goToPreview = () => revealElement(window.document.getElementById(PREVIEW_REGION_ID))
+  const goToPreview = () =>
+    revealElement(window.document.getElementById(PREVIEW_REGION_ID));
 
   const backToEditor = () => {
-    const remembered = lastEditedElement.current
+    const remembered = lastEditedElement.current;
     revealElement(
-      remembered?.isConnected ? remembered : window.document.getElementById(EDITOR_REGION_ID),
-    )
-  }
-
+      remembered?.isConnected
+        ? remembered
+        : window.document.getElementById(EDITOR_REGION_ID),
+    );
+  };
 
   // The rotation is a property of the paper, not of anything the preview renders, so it reaches
   // print through the document element the print stylesheet keys on rather than through a prop.
   useEffect(() => {
-    const root = window.document.documentElement
-    if (!document.rotatePrint) return
+    const root = window.document.documentElement;
+    if (!document.rotatePrint) return;
 
-    root.classList.add('print-rotated')
-    const pageStyle = window.document.createElement('style')
-    pageStyle.id = ROTATED_PAGE_STYLE_ID
-    pageStyle.textContent = ROTATED_PAGE_RULE
-    window.document.head.append(pageStyle)
+    root.classList.add("print-rotated");
+    const pageStyle = window.document.createElement("style");
+    pageStyle.id = ROTATED_PAGE_STYLE_ID;
+    pageStyle.textContent = ROTATED_PAGE_RULE;
+    window.document.head.append(pageStyle);
 
     return () => {
-      root.classList.remove('print-rotated')
-      pageStyle.remove()
-    }
-  }, [document.rotatePrint])
+      root.classList.remove("print-rotated");
+      pageStyle.remove();
+    };
+  }, [document.rotatePrint]);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.target instanceof HTMLTextAreaElement) return
-      if (e.target instanceof HTMLInputElement && (e.target.type === 'text' || e.target.type === 'date' || e.target.type === 'number')) return
+      if (e.target instanceof HTMLTextAreaElement) return;
+      if (
+        e.target instanceof HTMLInputElement &&
+        (e.target.type === "text" ||
+          e.target.type === "date" ||
+          e.target.type === "number")
+      )
+        return;
 
       if (e.metaKey || e.ctrlKey) {
-        if (e.key === 'z' && !e.shiftKey) {
-          e.preventDefault()
-          undoLastEdit()
-        } else if ((e.key === 'z' && e.shiftKey) || e.key === 'y') {
-          e.preventDefault()
-          redoLastEdit()
+        if (e.key === "z" && !e.shiftKey) {
+          e.preventDefault();
+          undoLastEdit();
+        } else if ((e.key === "z" && e.shiftKey) || e.key === "y") {
+          e.preventDefault();
+          redoLastEdit();
         }
       }
-    }
+    };
 
-    window.addEventListener('keydown', handleKeyDown)
-    return () => window.removeEventListener('keydown', handleKeyDown)
-  }, [undoLastEdit, redoLastEdit])
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [undoLastEdit, redoLastEdit]);
 
   return (
-    <div className={`app-shell${canPrint ? '' : ' app-shell--print-blocked'}`}>
+    <div className={`app-shell${canPrint ? "" : " app-shell--print-blocked"}`}>
       {/* The editor fills the screen and no visible text acts as its heading, so
           a screen reader and a crawler would find a document with no title of
           its own. This names the product; the print panels keep their own h1
@@ -323,20 +355,30 @@ const App = () => {
             <div className="removal-status screen-only" role="status">
               <Icon name="warning" size={16} />
               <span>{removalMessage(lastEdit)}</span>
-              <button className="text-button" type="button" onClick={undoRemoval}>
+              <button
+                className="text-button"
+                type="button"
+                onClick={undoRemoval}
+              >
                 {COPY.undoRemoval}
               </button>
             </div>
           )}
 
-          <header className="document-toolbar screen-only" aria-label={COPY.documentSettings}>
+          <section
+            className="document-toolbar screen-only"
+            aria-label={COPY.documentSettings}
+          >
             <div className="toolbar-group">
               <label className="toggle-control">
                 <input
                   type="checkbox"
                   checked={document.showDate}
                   onChange={(event) =>
-                    applyDocumentSettings({ ...document, showDate: event.target.checked })
+                    applyDocumentSettings({
+                      ...document,
+                      showDate: event.target.checked,
+                    })
                   }
                 />
                 <span className="toggle-control__track" aria-hidden="true" />
@@ -344,17 +386,21 @@ const App = () => {
                 <span>{COPY.firstPanelDate}</span>
               </label>
 
-              <label className={`date-control${document.showDate ? '' : ' date-control--disabled'}`}>
+              <label
+                className={`date-control${document.showDate ? "" : " date-control--disabled"}`}
+              >
                 <span className="sr-only">{COPY.chooseDate}</span>
                 <input
                   type="date"
                   value={document.date}
                   disabled={!document.showDate}
                   onChange={(event) => {
-                    const date = event.target.value
+                    const date = event.target.value;
                     applyDocumentSettings(
-                      date ? { ...document, date } : { ...document, showDate: false },
-                    )
+                      date
+                        ? { ...document, date }
+                        : { ...document, showDate: false },
+                    );
                   }}
                 />
               </label>
@@ -366,7 +412,10 @@ const App = () => {
                   type="checkbox"
                   checked={document.showPanelNumbers}
                   onChange={(event) =>
-                    applyDocumentSettings({ ...document, showPanelNumbers: event.target.checked })
+                    applyDocumentSettings({
+                      ...document,
+                      showPanelNumbers: event.target.checked,
+                    })
                   }
                 />
                 <span className="toggle-control__track" aria-hidden="true" />
@@ -378,11 +427,11 @@ const App = () => {
                 <input
                   type="checkbox"
                   aria-describedby={MOON_HINT_ID}
-                  checked={document.typography === 'moon'}
+                  checked={document.typography === "moon"}
                   onChange={(event) =>
                     applyDocumentSettings({
                       ...document,
-                      typography: event.target.checked ? 'moon' : 'latin',
+                      typography: event.target.checked ? "moon" : "latin",
                     })
                   }
                 />
@@ -402,7 +451,10 @@ const App = () => {
                   aria-describedby={ROTATE_PRINT_HINT_ID}
                   checked={document.rotatePrint === true}
                   onChange={(event) =>
-                    applyDocumentSettings({ ...document, rotatePrint: event.target.checked })
+                    applyDocumentSettings({
+                      ...document,
+                      rotatePrint: event.target.checked,
+                    })
                   }
                 />
                 <span className="toggle-control__track" aria-hidden="true" />
@@ -413,22 +465,34 @@ const App = () => {
                 {COPY.rotatePrintHint}
               </p>
 
-              <div className="mode-switcher" role="group" aria-label={COPY.editorMode}>
+              <div
+                className="mode-switcher"
+                role="group"
+                aria-label={COPY.editorMode}
+              >
                 <button
                   type="button"
-                  aria-pressed={mode === 'visual'}
+                  aria-pressed={mode === "visual"}
                   disabled={markdownErrors.length > 0}
-                  className={mode === 'visual' ? 'mode-switcher__button is-active' : 'mode-switcher__button'}
-                  onClick={() => changeMode('visual')}
+                  className={
+                    mode === "visual"
+                      ? "mode-switcher__button is-active"
+                      : "mode-switcher__button"
+                  }
+                  onClick={() => changeMode("visual")}
                 >
                   <Icon name="list" size={16} />
                   {COPY.visualMode}
                 </button>
                 <button
                   type="button"
-                  aria-pressed={mode === 'markdown'}
-                  className={mode === 'markdown' ? 'mode-switcher__button is-active' : 'mode-switcher__button'}
-                  onClick={() => changeMode('markdown')}
+                  aria-pressed={mode === "markdown"}
+                  className={
+                    mode === "markdown"
+                      ? "mode-switcher__button is-active"
+                      : "mode-switcher__button"
+                  }
+                  onClick={() => changeMode("markdown")}
                 >
                   <Icon name="code" size={16} />
                   {COPY.markdownMode}
@@ -437,7 +501,11 @@ const App = () => {
 
               {/* The file lives outside the browser, so exporting is offered whatever the
                   layout says: an oversized list blocks printing, never keeping a copy. */}
-              <button className="secondary-button" type="button" onClick={exportMarkdown}>
+              <button
+                className="secondary-button"
+                type="button"
+                onClick={exportMarkdown}
+              >
                 <Icon name="download" size={16} />
                 {COPY.exportMarkdown}
               </button>
@@ -484,8 +552,12 @@ const App = () => {
                 {printLabel}
               </button>
 
-              {firstOverflowListId && mode === 'visual' && (
-                <button className="secondary-button" type="button" onClick={goToOverflowList}>
+              {firstOverflowListId && mode === "visual" && (
+                <button
+                  className="secondary-button"
+                  type="button"
+                  onClick={goToOverflowList}
+                >
                   <Icon name="warning" size={16} />
                   {COPY.goToOverflowList}
                 </button>
@@ -494,7 +566,11 @@ const App = () => {
               {/* Side by side the preview is already on screen; stacked, it sits
                   a whole editor below, so this jump is revealed by the same
                   media query that stacks the panes. */}
-              <button className="secondary-button narrow-only" type="button" onClick={goToPreview}>
+              <button
+                className="secondary-button narrow-only"
+                type="button"
+                onClick={goToPreview}
+              >
                 <Icon name="panel" size={16} />
                 {COPY.goToPreview}
               </button>
@@ -505,7 +581,7 @@ const App = () => {
 
               {/* An import that changed nothing must say so: the document on screen is still the
                   one that was there before the file was chosen. */}
-              {importFailure?.kind === 'unreadable' && (
+              {importFailure?.kind === "unreadable" && (
                 <p className="import-status" role="status">
                   <Icon name="warning" size={16} />
                   <span>{COPY.importFailed}</span>
@@ -513,17 +589,21 @@ const App = () => {
               )}
               {/* Only while the rejected source is still the one on screen. The first edit to it
                   ends the statement's subject, and no later error can revive it. */}
-              {importFailure?.kind === 'invalid' && markdown === importFailure.source && (
-                <p className="import-status" role="status">
-                  <Icon name="warning" size={16} />
-                  <span>{COPY.importFailedWithErrors}</span>
-                </p>
-              )}
+              {importFailure?.kind === "invalid" &&
+                markdown === importFailure.source && (
+                  <p className="import-status" role="status">
+                    <Icon name="warning" size={16} />
+                    <span>{COPY.importFailedWithErrors}</span>
+                  </p>
+                )}
             </div>
-          </header>
+          </section>
 
-          <div className="editor-scroll-region" onFocusCapture={rememberEditedElement}>
-            {mode === 'visual' ? (
+          <div
+            className="editor-scroll-region"
+            onFocusCapture={rememberEditedElement}
+          >
+            {mode === "visual" ? (
               <VisualEditor
                 document={document}
                 overflowListIds={layoutStatus.overflowListIds}
@@ -576,7 +656,7 @@ const App = () => {
         <p>{COPY.printBlockedDescription}</p>
       </section>
     </div>
-  )
-}
+  );
+};
 
-export default App
+export default App;
