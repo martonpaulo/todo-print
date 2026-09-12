@@ -443,11 +443,17 @@ body,
   outline: 0;
 }
 
+/*
+ * The list title is the only display-role text on screen — every other heading in this product is
+ * on the printed sheet, which keeps its own system face. So this is where Gabarito is used, and
+ * the reason the display face is shipped at all.
+ */
 .list-card__title-input {
   padding-bottom: var(--space-3);
   border-bottom: var(--border-width) solid var(--border-strong);
+  font-family: var(--font-display);
   font-size: var(--text-lg);
-  font-weight: var(--font-weight-action);
+  font-weight: var(--font-weight-title);
   letter-spacing: var(--tracking-tight);
 }
 

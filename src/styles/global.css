@@ -5,7 +5,13 @@
 html {
   color: var(--text-primary);
   background: var(--surface-canvas);
-  font-family: var(--font-sans);
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-body);
+  /*
+   * Nothing is faked: every weight the stylesheets ask for is a face `src/styles/fonts.css`
+   * actually loads. This is what made the old fractional weights collapse into one another, and it
+   * is why the weight tokens are limited to the three shipped values.
+   */
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;

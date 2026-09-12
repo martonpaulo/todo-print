@@ -219,7 +219,14 @@
   background-size: 100% 0.25mm;
 }
 
+/*
+ * The off-screen layer that measures how tall each list renders, so pagination can decide which
+ * panel it lands on. It is not inside a `.print-page`, so it does not inherit the sheet's face on
+ * its own — and a measurement taken in the interface font would be a measurement of a sheet nobody
+ * prints. `--font-print` is declared here for that reason; keep it in step with `.print-page`.
+ */
 .measurement-layer {
+  font-family: var(--font-print);
   position: fixed;
   top: 0;
   left: -200vw;

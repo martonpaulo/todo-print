@@ -40,17 +40,29 @@
   /* Status role — the attention treatment shared by overflow and invalid states */
   --status-attention: var(--color-ink);
 
-  /* Typography tokens */
-  --font-sans: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  /*
+   * Typography tokens. Families and weights follow the fleet typography standard
+   * (skill-deck/docs/typography-standard.md): Gabarito 700 for display, Figtree 400/600 for body
+   * and UI, the system monospace stack for code and data. The faces are loaded by
+   * `src/styles/fonts.css`; every weight named here is one of the three that actually ship, which
+   * is what `font-synthesis: none` in `global.css` requires.
+   */
+  --font-display: "Gabarito", "Avenir Next", "Segoe UI", system-ui, sans-serif;
+  --font-body: "Figtree", "Avenir Next", "Segoe UI", system-ui, sans-serif;
   --font-mono: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  /*
+   * Paper is a different medium and does not follow the standard: the sheet is set in a system
+   * grotesque chosen for print fidelity, and no webfont reaches it. Do not point this at Figtree.
+   */
   --font-print: Arial, "Helvetica Neue", Helvetica, sans-serif;
   --text-xs: 0.6875rem;
   --text-sm: 0.8125rem;
   --text-lg: 1.125rem;
-  --font-weight-control: 650;
+  --font-weight-body: 400;
+  --font-weight-control: 600;
   --font-weight-strong: 700;
-  --font-weight-action: 750;
-  --font-weight-title: 800;
+  --font-weight-action: 700;
+  --font-weight-title: 700;
   --tracking-wide: 0.1em;
   --tracking-tight: -0.025em;
 

@@ -1,9 +1,46 @@
+import type { Plugin } from 'vite'
 import react from '@vitejs/plugin-react'
 import { configDefaults, defineConfig } from 'vitest/config'
 
+/*
+ * `src/styles/fonts.css` loads the three shipped faces with `font-display: swap`, which keeps text
+ * visible but only starts the download once the stylesheet has been parsed. Preloading starts it
+ * with the stylesheet instead, so the swap lands before first paint rather than after it.
+ *
+ * The tags cannot live in `index.html`: Vite hashes the woff2 files, so their names exist only once
+ * the bundle does. This reads them back out of the bundle and prepends one `<link rel="preload">`
+ * per file. Build only — `vite dev` serves the fonts unhashed straight from the package.
+ */
+function preloadFonts(): Plugin {
+  return {
+    name: 'preload-fonts',
+    apply: 'build',
+    transformIndexHtml: {
+      order: 'post',
+      handler(_html, context) {
+        return Object.keys(context.bundle ?? {})
+          .filter((fileName) => fileName.endsWith('.woff2'))
+          .sort()
+          .map((fileName) => ({
+            tag: 'link',
+            attrs: {
+              rel: 'preload',
+              as: 'font',
+              type: 'font/woff2',
+              // `base` is '/', so the emitted asset path is already the served path.
+              href: `/${fileName}`,
+              crossorigin: '',
+            },
+            injectTo: 'head-prepend' as const,
+          }))
+      },
+    },
+  }
+}
+
 export default defineConfig({
   base: '/',
-  plugins: [react()],
+  plugins: [react(), preloadFonts()],
   test: {
     environment: 'jsdom',
     setupFiles: './src/test/setup.ts',

@@ -1,0 +1,17 @@
+/*
+ * The two shipped faces, self-hosted from Fontsource at exact versions so a byte on the page can
+ * never change under a range. Only the weights the interface actually uses are imported — Figtree
+ * 400 and 600 for body and controls, Gabarito 700 for the one display role — because
+ * `font-synthesis: none` in `global.css` means an unshipped weight is not faked, it is ignored.
+ * `latin` only: every visible string in this product is English.
+ *
+ * Each import carries Fontsource's own `font-display: swap`. The matching `<link rel="preload">`
+ * tags are added to the built `index.html` by the `preload-fonts` plugin in `vite.config.ts`,
+ * which is where the hashed filenames first exist.
+ *
+ * The printed sheet is deliberately not part of this: it stays on `--font-print`, a system stack
+ * chosen for print fidelity, and no webfont reaches paper.
+ */
+@import '@fontsource/figtree/latin-400.css';
+@import '@fontsource/figtree/latin-600.css';
+@import '@fontsource/gabarito/latin-700.css';
