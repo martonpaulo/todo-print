@@ -104,6 +104,27 @@ const removalMessage = (edit: DocumentEdit) => {
   return COPY.removedPanelBreak;
 };
 
+/** The fleet's mark for a link that leaves the site (windowhop/docs). */
+const ExternalIcon = () => (
+  <svg
+    className="external-icon"
+    viewBox="0 0 12 12"
+    width="12"
+    height="12"
+    fill="none"
+    aria-hidden="true"
+    focusable="false"
+  >
+    <path
+      d="M3.6 8.4 8.4 3.6M4.8 3.6h3.6v3.6"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+);
+
 const App = () => {
   const {
     document,
@@ -650,6 +671,23 @@ const App = () => {
           />
         </section>
       </main>
+
+      <footer className="site-footer screen-only">
+        <p>
+          Developed by Marton Paulo · MIT licensed · © 2026 Todo Print
+          contributors.
+        </p>
+        <nav aria-label={COPY.projectLinks}>
+          <a href="https://github.com/martonpaulo/todo-print" rel="noopener">
+            Source
+            <ExternalIcon />
+          </a>
+          <a href="https://martonpaulo.com/" rel="noopener">
+            martonpaulo.com
+            <ExternalIcon />
+          </a>
+        </nav>
+      </footer>
 
       <section className="print-blocker" aria-labelledby="print-blocker-title">
         <h1 id="print-blocker-title">{COPY.printBlockedTitle}</h1>

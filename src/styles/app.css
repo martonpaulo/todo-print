@@ -18,6 +18,56 @@ body,
   display: none;
 }
 
+/* The fleet footer (windowhop/docs). The last row of the full-height shell:
+   the workspace keeps every remaining pixel, and nothing floats over it. On
+   the stacked layout the shell grows with its content and this follows it. */
+.site-footer {
+  display: flex;
+  flex: none;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-6);
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-3) var(--space-6);
+  color: var(--text-muted);
+  font-size: var(--text-xs);
+  background: var(--surface-page);
+  border-top: var(--border-width) solid var(--border-subtle);
+}
+
+.site-footer p {
+  margin: 0;
+}
+
+.site-footer nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-5);
+}
+
+.site-footer a {
+  display: inline-flex;
+  align-items: center;
+  color: var(--text-secondary);
+  font-weight: var(--weight-strong);
+  text-decoration: none;
+}
+
+.site-footer a:hover {
+  color: var(--text-primary);
+  text-decoration: underline;
+}
+
+/* One icon for every link that leaves the site. */
+.external-icon {
+  flex: none;
+  width: 0.7em;
+  height: 0.7em;
+  margin-left: 0.35em;
+  vertical-align: baseline;
+  opacity: 0.8;
+}
+
 .toolbar-group,
 .toggle-control,
 .primary-button,

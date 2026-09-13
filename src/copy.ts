@@ -12,6 +12,7 @@ const MARKDOWN_ERROR_MESSAGES = {
 export const COPY = {
   appName: "Todo Print",
   appTagline: "A calm workspace for paper plans.",
+  projectLinks: "Project links",
   localBadge: "Local · private",
   savedLocally: "Saved in this browser",
   saveFailed: "Not saved in this browser",
