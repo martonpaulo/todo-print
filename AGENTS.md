@@ -2,8 +2,10 @@
 
 ## Project identity and policy
 
-- Project name: `todo-print`
-- Public name: `Todo Print`
+- Display name: `Todo Print`
+- Code name: `TodoPrint`
+- Slug: `todo-print`
+- Identifier name: `todoprint`
 - Benefit-first description: Design and print structured todo lists as exact-size A4 layouts from a visual or Markdown editor.
 - Repository: `martonpaulo/todo-print` (public)
 - Public identifiers: private npm package `todo-print`; GitHub Pages site `todoprint.martonpaulo.com` (repository slug `todo-print`).
@@ -120,7 +122,7 @@ Treat these values as stable project decisions. Change an established identifier
 - Put comments next to non-obvious constraints. Explain intent, provenance, or subtle external rules rather than mechanics, and link official documentation when a rule must remain visible.
 - Durable documentation describes responsibilities, contracts, invariants, commands, and decisions. Update the smallest canonical section when a durable contract changes.
 - Keep the README easy to scan and cover benefit, behavior, requirements, setup, usage, validation, security, privacy, limitations, and deployment.
-- Preserve the recorded public name and branding as the README H1. Every fenced block setup creates or materially edits must have an explicit language identifier.
+- Preserve the recorded display name and branding as the README H1. Every fenced block setup creates or materially edits must have an explicit language identifier.
 - Use badges, real screenshots, statistics, and emoji only when they improve comprehension and can remain current.
 - Preserve third-party licenses, copyright, attribution, and notices.
 - Do not create a `CHANGELOG.md` while the product remains unversioned.
