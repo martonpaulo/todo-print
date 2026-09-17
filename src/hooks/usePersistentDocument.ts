@@ -4,7 +4,7 @@ import type { TodoDocument } from "../domain/types";
 import { recordProfileSample } from "../profiling";
 import { createStarterDocument } from "../starterDocument";
 
-export const STORAGE_KEY = "todo-print-editor.document.v1";
+export const STORAGE_KEY = "todo-print.document.v1";
 
 /**
  * Consecutive edits closer together than this merge into one history entry, so

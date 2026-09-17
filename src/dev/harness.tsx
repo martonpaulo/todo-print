@@ -17,7 +17,7 @@ import "../styles/print.css";
  * output directory and is never part of the deployed application bundle.
  */
 
-const STORAGE_KEY = "todo-print-editor.document.v1";
+const STORAGE_KEY = "todo-print.document.v1";
 
 interface Sample {
   editToPaint: number;

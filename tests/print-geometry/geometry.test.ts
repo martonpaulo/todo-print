@@ -3,12 +3,12 @@ import { createServer, type ViteDevServer } from "vite";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import type { TodoDocument, Typography } from "../../src/domain/types";
 import { STORAGE_KEY } from "../../src/hooks/usePersistentDocument";
-import { launchBrowser, waitForPrintMedia } from "./browser";
+import { launchBrowser, waitForPrintMedia } from "../support/browser";
 import {
   readPrintContract,
   readPrintPanelClamp,
   readRecordedPanelClamp,
-} from "./contract";
+} from "../support/contract";
 
 const contract = readPrintContract();
 const clamp = readPrintPanelClamp();

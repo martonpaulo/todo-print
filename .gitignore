@@ -30,3 +30,6 @@ coverage
 
 # Performance harness output
 .profile-dist
+
+# Local agent work (handoffs, prototypes)
+.scratch/

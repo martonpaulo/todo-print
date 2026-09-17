@@ -22,5 +22,5 @@
     "erasableSyntaxOnly": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src", "profile"]
+  "include": ["src", "profile", "tests/support/setup.ts"]
 }

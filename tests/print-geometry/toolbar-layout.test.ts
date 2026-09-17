@@ -3,7 +3,7 @@ import { createServer, type ViteDevServer } from "vite";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import type { TodoDocument } from "../../src/domain/types";
 import { STORAGE_KEY } from "../../src/hooks/usePersistentDocument";
-import { launchBrowser } from "./browser";
+import { launchBrowser } from "../support/browser";
 
 /**
  * The date control is a `<label>` inside a wrapping flex `.toolbar-group`, so whether it sits beside

@@ -45,7 +45,7 @@ export const readPrintContract = (): PrintContract => {
   if (!match) {
     throw new Error(
       `Could not find the printed-page contract in ${AGENTS_PATH}. ` +
-        "Update tests/print-geometry/contract.ts to match its current wording.",
+        "Update tests/support/contract.ts to match its current wording.",
     );
   }
 
@@ -83,7 +83,7 @@ export const readRecordedPanelClamp = (): PrintPanelClamp => {
   if (!match) {
     throw new Error(
       `Could not find the printed-panel clamp in ${AGENTS_PATH}. ` +
-        "Update tests/print-geometry/contract.ts to match its current wording.",
+        "Update tests/support/contract.ts to match its current wording.",
     );
   }
 
@@ -104,7 +104,7 @@ const declaration = (block: string, property: string): number => {
   if (!match) {
     throw new Error(
       `The @media print .print-panel rule in ${PRINT_CSS_PATH} declares no ${property} in mm. ` +
-        "Update tests/print-geometry/contract.ts to match its current shape.",
+        "Update tests/support/contract.ts to match its current shape.",
     );
   }
   return Number(match[1]);
@@ -117,7 +117,7 @@ export const readPrintPanelClamp = (): PrintPanelClamp => {
   if (!rule) {
     throw new Error(
       `Could not find the @media print .print-panel rule in ${PRINT_CSS_PATH}. ` +
-        "Update tests/print-geometry/contract.ts to match its current shape.",
+        "Update tests/support/contract.ts to match its current shape.",
     );
   }
 

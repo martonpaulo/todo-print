@@ -3,8 +3,8 @@ import { createServer, type ViteDevServer } from "vite";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import type { TodoDocument } from "../../src/domain/types";
 import { STORAGE_KEY } from "../../src/hooks/usePersistentDocument";
-import { launchBrowser, waitForPrintMedia } from "./browser";
-import { readPrintContract, readRecordedPanelClamp } from "./contract";
+import { launchBrowser, waitForPrintMedia } from "../support/browser";
+import { readPrintContract, readRecordedPanelClamp } from "../support/contract";
 
 /**
  * The opt-in print rotation (#54) turns the finished sheet onto portrait paper for printers that

@@ -192,6 +192,12 @@ When the user must notice and respond to a proposed follow-up, material choice, 
 - Product definition: `docs/product.md`
 - Performance budget and supported document scale: `docs/performance.md`
 - Domain glossary: `CONTEXT.md` (create and update only when canonical domain language is useful)
+- Architecture decisions (ADRs): `docs/adr/` (create when the first decision is recorded)
+- Research notes: `docs/research/` (create when persisting reusable research)
+- Handoffs: `.scratch/handoffs/`
+- Prototypes: `.scratch/prototypes/`
+
+`.scratch/` is ignored by Git. Nothing is created until it has real content.
 
 ## Git and releases
 

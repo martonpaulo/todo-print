@@ -3,7 +3,7 @@ import { createServer, type ViteDevServer } from "vite";
 import { afterAll, afterEach, beforeAll, describe, expect, it } from "vitest";
 import type { TodoDocument } from "../../src/domain/types";
 import { STORAGE_KEY } from "../../src/hooks/usePersistentDocument";
-import { launchBrowser } from "./browser";
+import { launchBrowser } from "../support/browser";
 
 /**
  * The preview downscales a sheet to fit the stage. The gutter it fits inside is declared once, by

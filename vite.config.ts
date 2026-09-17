@@ -43,7 +43,7 @@ export default defineConfig({
   plugins: [react(), preloadFonts()],
   test: {
     environment: "jsdom",
-    setupFiles: "./src/test/setup.ts",
+    setupFiles: "./tests/support/setup.ts",
     // Vitest's 5 s default is below what the @testing-library/react cases in src/App.test.tsx need:
     // they render the whole application, and on a machine running other work in parallel a single
     // one exceeds 5 s while that file finishes in under 14 s when it runs alone. 30 s absorbs that
