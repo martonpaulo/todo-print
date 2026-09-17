@@ -1,5 +1,5 @@
 {
-  "name": "todo-print-editor",
+  "name": "todo-print",
   "private": true,
   "packageManager": "pnpm@11.7.0",
   "version": "0.0.0",
