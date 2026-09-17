@@ -12,22 +12,15 @@
 - Copyright: 2026 martonpaulo
 - Development language: English.
 - Product copy: English (`en-US`) only, with `en-US` as the fallback. Keep visible strings centralized; do not add a localization framework until another locale is requested.
-- Branch policy: The owner and the owner's agents commit validated work directly to `main` in focused single-concern commits (owner decision, 2026-09-11). Branches and pull requests stay available for work that benefits from review, and are required for outside contributors. Orchestrated executors keep issue branches and pull requests under `## Agent execution`.
+- Branch policy: The owner and the owner's agents commit validated work directly to `main` in focused single-concern commits (owner decision, 2026-09-11). Branches and pull requests stay available for work that benefits from review, and are required for outside contributors.
 - Commit policy: commit only when the owner explicitly requests it. Use Conventional Commits in English.
 - Push policy: push only when the owner explicitly requests it and local validation has passed.
 - Product versioning: no user-visible versions, automatic increments, tags, releases, or changelog. The private package version remains the internal `0.0.0` unless an explicit migration changes this policy.
-- Agent automation: `enabled`
-- Agent orchestration: `enabled` (Agent Orchestrator, local)
-- Implementation agent: `claude`
-- Review agent: `codex`
-- Orchestration agent: `codex`
 - Merge policy: merge commit, `gh pr merge <number> --merge --delete-branch`, so every branch
-  commit reaches `main`. Squash was adopted on 2026-09-04 only because Agent Orchestrator's merge
-  action was squash-only; that integration was removed (martonpaulo/skill-deck#271), and the owner
-  restored the preference for keeping branch commits (martonpaulo/skill-deck#277).
+  commit reaches `main` (martonpaulo/skill-deck#277).
 - Commit subject: a commit made for an issue ends with `(#<issue number>)`.
 - Delete branches after merge: enabled.
-- Default branch review policy: none required. Ruleset `22041475` no longer exists, and since 2026-09-11 validated work goes straight to `main`. A pull request, when used, merges with a merge commit after the `validate` check; the `agent-approver` GitHub App (id `4779359`) stays installed for orchestrated lanes.
+- Default branch review policy: none required. Ruleset `22041475` no longer exists, and since 2026-09-11 validated work goes straight to `main`. A pull request, when used, merges with a merge commit after the `validate` check.
 - Release, signing, and secret-storage policy: `Validate` (`.github/workflows/validate.yml`) runs on every push and pull request; `Deploy` (`.github/workflows/deploy.yml`) waits for it to succeed on `main`, never repeating its checks, and deploys the static build to GitHub Pages through GitHub Actions on every successful run. Use only the repository-scoped `GITHUB_TOKEN`; there are no release artifacts, signing identities, or project secrets.
 - Skills baseline revision: `45d40d7a35ad074249006f3c058b63299e65a074`
 - Skills baseline applied: `2026-09-01`
@@ -55,6 +48,7 @@ Treat these values as stable project decisions. Change an established identifier
 - Keep screen editing components under `src/components/`; `App.tsx` owns mode synchronization and document-level settings.
 - `src/domain/file.ts` owns taking the document out of the browser and reading one back: file naming, exported bytes, and the two thin browser adapters that download and read a file. It is the one module under `src/domain/` that touches the DOM, and it holds no product rule of its own — an import is parsed by `src/domain/markdown.ts` like any other source, so a file can never enter content that typing could not.
 - Attach tests to the public domain seams beside their modules as `*.test.ts` files.
+- A change that makes a recorded pattern untrue updates it in the same commit, and a change that establishes a new one stops and asks first.
 
 ## Instruction hierarchy and sources of truth
 
@@ -76,21 +70,6 @@ Treat these values as stable project decisions. Change an established identifier
 - Interrupt only when progress has stopped, a deadline expired, or continued cost or risk is no longer justified.
 - After interruption, report preserved state, diagnose the likely cause, and choose a narrower retry, different tool, smaller unit, or explicit blocker.
 - Never rerun the same unchanged failure or add polling infrastructure merely to monitor one operation.
-
-## Agent execution
-
-Rules for any executor working from a clone of this repository, including cloud executors that read only committed files.
-
-- Run tests with `pnpm test`; run lint and the formatter check with `pnpm lint` (Biome). A change is not done while either fails on the exact current head.
-- Branch as `<type>/<agent>/issue-<n>/<short-slug>`; commit with Conventional Commits, with the subject ending in `(#<n>)`.
-- Never push to `main` and never merge: open a pull request and stop. Merge belongs to the owner, or to GitHub auto-merge under the predicates recorded in `.ao/worker-rules.md`.
-- Start the pull request body with one `Closes #<n>` line per resolved issue, then document the problem, implementation, tests with results, and residual risk.
-- Do not touch: `docs/product.md`, `LICENSE`, `.ao/**`, `.github/workflows/**`.
-- `AGENTS.md` is protected by section, not as a file. `## Project identity and policy` is
-  governance and never moves under an executor. Every other section, `## Patterns` above all, is
-  documentation of this code — so a change that makes a recorded pattern untrue updates it in the
-  same pull request, and a change that establishes a new one stops and asks first.
-- When a needed decision is not written in the issue, comment exactly what is missing, apply `status: needs-decision`, and stop instead of guessing.
 
 ## Before editing
 
@@ -205,7 +184,7 @@ When the user must notice and respond to a proposed follow-up, material choice, 
 - Check status and branch before editing and before the final report. Leave unrelated changes untouched.
 - Make one commit per coherent concern. End issue-related commit subjects with the issue number; omit it when there is no issue.
 - Merge issue branches with `gh pr merge <number> --merge --delete-branch`; the repository allows
-  no other method, and `skd merge` lets Agent Orchestrator perform it.
+  no other method.
 - Inspect the exact payload before every publication: staged diff for commits, outgoing commits for pushes, final text for GitHub writing, and exact artifacts for releases.
 - Stop before publication when the payload contains credentials, keys, signing material, sensitive personal data, or secret-bearing configuration. Never print the value; identify only the file, masked location, and category.
 - If a sensitive value may already be published, stop further spread and require revocation or rotation before considering history repair.
