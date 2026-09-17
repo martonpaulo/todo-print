@@ -21,14 +21,13 @@
 - Implementation agent: `claude`
 - Review agent: `codex`
 - Orchestration agent: `codex`
-- Merge policy: squash. Adopted 2026-09-04: Agent Orchestrator's merge endpoint squash-merges and
-  only squash-merges, so the previous merge-commit policy made the orchestrated lane stop at its
-  last step — every approved pull request was refused with `PR_NOT_MERGEABLE` while GitHub and AO
-  both reported it mergeable. The accepted cost is that per-concern branch commits do not reach
-  `main`; the complete issue set survives in the pull request title and its closing block.
+- Merge policy: merge commit, `gh pr merge <number> --merge --delete-branch`, so every branch
+  commit reaches `main`. Squash was adopted on 2026-09-04 only because Agent Orchestrator's merge
+  action was squash-only; that integration was removed (martonpaulo/skill-deck#271), and the owner
+  restored the preference for keeping branch commits (martonpaulo/skill-deck#277).
 - Commit subject: a commit made for an issue ends with `(#<issue number>)`.
 - Delete branches after merge: enabled.
-- Default branch review policy: none required. Ruleset `22041475` no longer exists, and since 2026-09-11 validated work goes straight to `main`. A pull request, when used, squash-merges after the `validate` check; the `agent-approver` GitHub App (id `4779359`) stays installed for orchestrated lanes.
+- Default branch review policy: none required. Ruleset `22041475` no longer exists, and since 2026-09-11 validated work goes straight to `main`. A pull request, when used, merges with a merge commit after the `validate` check; the `agent-approver` GitHub App (id `4779359`) stays installed for orchestrated lanes.
 - Release, signing, and secret-storage policy: `Validate` (`.github/workflows/validate.yml`) runs on every push and pull request; `Deploy` (`.github/workflows/deploy.yml`) waits for it to succeed on `main`, never repeating its checks, and deploys the static build to GitHub Pages through GitHub Actions on every successful run. Use only the repository-scoped `GITHUB_TOKEN`; there are no release artifacts, signing identities, or project secrets.
 - Skills baseline revision: `45d40d7a35ad074249006f3c058b63299e65a074`
 - Skills baseline applied: `2026-09-01`
@@ -199,7 +198,7 @@ When the user must notice and respond to a proposed follow-up, material choice, 
 - Follow the recorded branch, commit, push, and version policies.
 - Check status and branch before editing and before the final report. Leave unrelated changes untouched.
 - Make one commit per coherent concern. End issue-related commit subjects with the issue number; omit it when there is no issue.
-- Merge issue branches with `gh pr merge <number> --squash --delete-branch`; the repository allows
+- Merge issue branches with `gh pr merge <number> --merge --delete-branch`; the repository allows
   no other method, and `skd merge` lets Agent Orchestrator perform it.
 - Inspect the exact payload before every publication: staged diff for commits, outgoing commits for pushes, final text for GitHub writing, and exact artifacts for releases.
 - Stop before publication when the payload contains credentials, keys, signing material, sensitive personal data, or secret-bearing configuration. Never print the value; identify only the file, masked location, and category.
