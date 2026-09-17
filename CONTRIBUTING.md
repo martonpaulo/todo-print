@@ -29,7 +29,7 @@ changing a physical dimension means changing that record.
 
 - The owner commits validated work directly to `main`. Outside contributors branch and open a pull
   request.
-- Branch as `<type>/<agent>/issue-<n>/<short-slug>`.
+- Branch as `<type>/<issue numbers>-<short-description>` ([Conventional Branch](https://conventionalbranch.org/), e.g. `feature/70-pane-menu-actions`; `<type>/<short-description>` when no issue exists).
 - Use [Conventional Commits](https://www.conventionalcommits.org/) in English, one commit per
   concern. A commit or pull request title that closes issues ends with their numbers:
   `fix: normalize carriage returns (#54, #61)`.
